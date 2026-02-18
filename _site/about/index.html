@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Thoughts of a Servant</title>
+  <meta name="description"
+    content="A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.">
+
+  <!-- Fonts preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Thoughts of a Servant" />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>About | Thoughts of a Servant</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="About" />
+<meta name="author" content="Choonyong Chan" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A little bit about me and this blog." />
+<meta property="og:description" content="A little bit about me and this blog." />
+<link rel="canonical" href="http://localhost:4000/about/" />
+<meta property="og:url" content="http://localhost:4000/about/" />
+<meta property="og:site_name" content="Thoughts of a Servant" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="About" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Choonyong Chan"},"description":"A little bit about me and this blog.","headline":"About","name":"Thoughts of a Servant","url":"http://localhost:4000/about/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+</head>
+
+<body>
+
+  <header class="site-header">
+    <nav class="container nav-inner" aria-label="Main navigation">
+        <a href="/" class="site-logo">Thoughts of a Servant</a>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts/">Posts</a></li>
+        </ul>
+    </nav>
+</header>
+
+  <main class="site-main">
+    <div class="container">
+    <header class="page-header">
+        <h1>About</h1>
+        
+        <p>A little bit about me and this blog.</p>
+        
+    </header>
+
+    <div class="page-content">
+        <div class="about-content">
+
+  <p>Hey there! I’m <strong>Harry</strong> — a computing enthusiast documenting my journey through toy projects and everyday observations.</p>
+
+  <h2 id="what-youll-find-here">What You’ll Find Here</h2>
+
+  <ul>
+    <li><strong>Projects</strong> — Hands-on experiments in Statistics, Computer Security, Computer Science, and AI. Each post walks through a small project, the reasoning behind it, and what I learned.</li>
+    <li><strong>Life Snippets</strong> — Café recommendations, thoughts on tech policy, and reflections on the intersection of technology and daily life.</li>
+  </ul>
+
+  <h2 id="why-thoughts-of-a-servant">Why “Thoughts of a Servant”?</h2>
+
+  <p>Every insight starts with a question, and every project is an act of service — to curiosity, to the craft, and to the community. This blog is my space to share that journey — the technical experiments, the everyday observations, and the lessons learned along the way.</p>
+
+  <h2 id="get-in-touch">Get in Touch</h2>
+
+  <p>I’m always happy to chat about projects, collaborate on ideas, or hear café recommendations.</p>
+
+  <ul>
+    <li><a href="https://github.com/">GitHub</a></li>
+    <li><a href="https://linkedin.com/">LinkedIn</a></li>
+  </ul>
+
+</div>
+
+    </div>
+</div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <ul class="footer-social">
+            
+            <li><a href="https://github.com/choonyongchan" target="_blank" rel="noopener">GitHub</a></li>
+            
+            
+            <li><a href="https://sg.linkedin.com/in/chanchoonyong" target="_blank" rel="noopener">LinkedIn</a></li>
+            
+            
+        </ul>
+        <p>&copy; 2026 Choonyong Chan.</p>
+        <a href="#" class="back-to-top">↑ Back to top</a>
+    </div>
+</footer>
+
+  <!-- Mobile nav toggle and Scroll effect -->
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.querySelector('.nav-links');
+      var heroScroll = document.querySelector('.hero-scroll');
+      var mainContent = document.getElementById('main-content');
+      var genreFilter = document.getElementById('genre-filter');
+      var postSearch = document.getElementById('post-search');
+
+      // Show header immediately on non-home pages
+      if (header && !document.body.classList.contains('home-page')) {
+        header.classList.add('scrolled');
+      }
+
+      // Scroll effect (only relevant on home page)
+      if (header && document.body.classList.contains('home-page')) {
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 200) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        });
+      }
+
+      if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+          nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
+        });
+      }
+
+      // Smooth scroll from hero arrow to main content on home
+      if (heroScroll && mainContent) {
+        heroScroll.addEventListener('click', function (event) {
+          event.preventDefault();
+          mainContent.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      // Posts page filters & search
+      function applyPostFilters() {
+        var cards = document.querySelectorAll('.post-card');
+        if (!cards.length) return;
+
+        var genreValue = genreFilter ? genreFilter.value : 'all';
+        var query = postSearch ? postSearch.value.trim().toLowerCase() : '';
+        var visibleCount = 0;
+
+        cards.forEach(function (card) {
+          var cardGenre = card.getAttribute('data-genre') || '';
+          var haystack = (card.getAttribute('data-search') || '').toLowerCase();
+
+          var matchesGenre = (genreValue === 'all') || (cardGenre === genreValue);
+          var matchesSearch = !query || haystack.indexOf(query) !== -1;
+
+          if (matchesGenre && matchesSearch) {
+            card.style.display = '';
+            visibleCount += 1;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        var visibleCountEl = document.querySelector('[data-post-visible-count]');
+        if (visibleCountEl) {
+          visibleCountEl.textContent = visibleCount;
+        }
+      }
+
+      if (genreFilter || postSearch) {
+        if (genreFilter) {
+          genreFilter.addEventListener('change', applyPostFilters);
+        }
+        if (postSearch) {
+          postSearch.addEventListener('input', applyPostFilters);
+        }
+      }
+    })();
+  </script>
+</body>
+
+</html>

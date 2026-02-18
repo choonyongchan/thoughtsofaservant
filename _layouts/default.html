@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description"
+    content="{% if page.excerpt %}{{ page.excerpt | strip_html | truncatewords: 40 }}{% else %}{{ site.description }}{% endif %}">
+
+  <!-- Fonts preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+
+  {% feed_meta %}
+  {% seo %}
+
+  {% include analytics.html %}
+</head>
+
+<body{% if page.url == '/' %} class="home-page"{% endif %}>
+
+  {% include header.html %}
+
+  <main class="site-main">
+    {{ content }}
+  </main>
+
+  {% include footer.html %}
+
+  <!-- Mobile nav toggle and Scroll effect -->
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.querySelector('.nav-links');
+      var heroScroll = document.querySelector('.hero-scroll');
+      var mainContent = document.getElementById('main-content');
+      var genreFilter = document.getElementById('genre-filter');
+      var postSearch = document.getElementById('post-search');
+
+      // Show header immediately on non-home pages
+      if (header && !document.body.classList.contains('home-page')) {
+        header.classList.add('scrolled');
+      }
+
+      // Scroll effect (only relevant on home page)
+      if (header && document.body.classList.contains('home-page')) {
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 200) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        });
+      }
+
+      if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+          nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
+        });
+      }
+
+      // Smooth scroll from hero arrow to main content on home
+      if (heroScroll && mainContent) {
+        heroScroll.addEventListener('click', function (event) {
+          event.preventDefault();
+          mainContent.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      // Posts page filters & search
+      function applyPostFilters() {
+        var cards = document.querySelectorAll('.post-card');
+        if (!cards.length) return;
+
+        var genreValue = genreFilter ? genreFilter.value : 'all';
+        var query = postSearch ? postSearch.value.trim().toLowerCase() : '';
+        var visibleCount = 0;
+
+        cards.forEach(function (card) {
+          var cardGenre = card.getAttribute('data-genre') || '';
+          var haystack = (card.getAttribute('data-search') || '').toLowerCase();
+
+          var matchesGenre = (genreValue === 'all') || (cardGenre === genreValue);
+          var matchesSearch = !query || haystack.indexOf(query) !== -1;
+
+          if (matchesGenre && matchesSearch) {
+            card.style.display = '';
+            visibleCount += 1;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        var visibleCountEl = document.querySelector('[data-post-visible-count]');
+        if (visibleCountEl) {
+          visibleCountEl.textContent = visibleCount;
+        }
+      }
+
+      if (genreFilter || postSearch) {
+        if (genreFilter) {
+          genreFilter.addEventListener('change', applyPostFilters);
+        }
+        if (postSearch) {
+          postSearch.addEventListener('input', applyPostFilters);
+        }
+      }
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+# Site settings
+title: "Thoughts of a Servant"
+description: "A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way."
+author: "Choonyong Chan"
+url: "" # e.g. https://username.github.io
+baseurl: "/stories"
+
+# Build
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:title/
+
+# Google Analytics — uncomment and add your Measurement ID when ready
+# google_analytics: "G-XXXXXXXXXX"
+
+# Social links
+social:
+  github: "https://github.com/choonyongchan"
+  linkedin: "https://sg.linkedin.com/in/chanchoonyong"
+  twitter: ""   # your Twitter/X handle
+
+# Comments (utterances — GitHub Issues backed)
+utterances:
+  repo: "" # e.g. username/stories
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
+  - scope:
+      path: ""
+    values:
+      layout: "page"
+
+# Exclude
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - node_modules
+  - vendor

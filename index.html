@@ -1,0 +1,52 @@
+---
+layout: default
+title: Home
+---
+
+<section class="hero">
+    <div class="hero-content">
+        <h1 class="hero-title">Thoughts of a Servant</h1>
+    </div>
+    <a href="#main-content" class="hero-scroll" aria-label="Scroll to main content"></a>
+</section>
+
+<div id="main-content" class="container">
+    <header class="page-header">
+        <p>Toy projects in Statistics, Security, CS &amp; AI — plus life snippets along the way.</p>
+    </header>
+
+    <div class="post-grid">
+        {% for post in site.posts limit:3 %}
+        <a href="{{ post.url | relative_url }}" class="post-card" style="text-decoration:none;color:inherit;">
+            {% if post.cover %}
+            <img class="post-card__cover" src="{{ post.cover | relative_url }}" alt="{{ post.title }}">
+            {% else %}
+            <div class="post-card__cover"
+                style="background:linear-gradient(135deg,var(--color-lavender),var(--color-sky));"></div>
+            {% endif %}
+            <div class="post-card__body">
+                {% if post.category %}
+                <span class="post-card__category post-card__category--{{ post.category | slugify }}">{{ post.category
+                    }}</span>
+                {% endif %}
+                <h2 class="post-card__title">{{ post.title }}</h2>
+                <p class="post-card__meta">{{ post.date | date: "%B %-d, %Y" }}</p>
+                <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<section class="about-section">
+    <div class="container">
+        <div class="about-section__inner">
+            <h2 class="about-section__title">About Me</h2>
+            <p class="about-section__text">
+                Hello! I'm Choonyong Chan. I'm passionate about computing, statistics, and exploring the intersections
+                of technology and life. This blog is my digital garden where I share "Thoughts of a Servant" —
+                reflections on projects, learning, and service.
+            </p>
+        </div>
+    </div>
+</section>

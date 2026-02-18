@@ -1,0 +1,70 @@
+---
+layout: default
+title: Posts
+description: All posts — projects, life snippets, and everything in between.
+permalink: /posts/
+---
+
+<div class="container">
+    <header class="page-header">
+        <h1>{{ page.title }}</h1>
+        <p>{{ page.description }}</p>
+    </header>
+
+    {% assign sorted_posts = site.posts | sort: 'date' | reverse %}
+    {% assign total_posts = sorted_posts | size %}
+
+    <section class="posts-controls" aria-label="Post filters">
+        <p class="posts-count">
+            <span data-post-visible-count>{{ total_posts }}</span> of
+            <span data-post-total-count>{{ total_posts }}</span> posts
+        </p>
+        <div class="posts-filters">
+            <label class="visually-hidden" for="genre-filter">Filter by genre</label>
+            <select id="genre-filter" class="posts-filter-select">
+                <option value="all">All genres</option>
+                {% assign categories = site.posts | map: 'category' | uniq | sort %}
+                {% for category in categories %}
+                {% if category %}
+                <option value="{{ category | slugify }}">{{ category }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+            <label class="visually-hidden" for="post-search">Search posts</label>
+            <input id="post-search" class="posts-search-input" type="search"
+                placeholder="Search by title, tag, or keyword" autocomplete="off">
+        </div>
+    </section>
+
+    <div class="post-grid">
+        {% for post in sorted_posts %}
+        <a href="{{ post.url | relative_url }}" class="post-card" style="text-decoration:none;color:inherit;"
+            data-genre="{{ post.category | default: '' | slugify }}"
+            data-search="{{ post.title | downcase }} {{ post.excerpt | strip_html | downcase }}{% if post.tags %} {{ post.tags | join: ' ' | downcase }}{% endif %}">
+            {% if post.cover %}
+            <img class="post-card__cover" src="{{ post.cover | relative_url }}" alt="{{ post.title }}">
+            {% else %}
+            <div class="post-card__cover"
+                style="background:linear-gradient(135deg,var(--color-lavender),var(--color-sky));"></div>
+            {% endif %}
+            <div class="post-card__body">
+                {% if post.category %}
+                <span class="post-card__category post-card__category--{{ post.category | slugify }}">{{ post.category
+                    }}</span>
+                {% endif %}
+                <h2 class="post-card__title">{{ post.title }}</h2>
+                <p class="post-card__meta">{{ post.date | date: "%B %-d, %Y" }}</p>
+                <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <div class="posts-footer-cta">
+        <p class="posts-footer-cta__text">
+            Finished browsing posts? Head back to the home page to see highlights and learn more about the site.
+        </p>
+        <a href="{{ '/' | relative_url }}" class="posts-footer-cta__button">Return to Home</a>
+    </div>
+</div>

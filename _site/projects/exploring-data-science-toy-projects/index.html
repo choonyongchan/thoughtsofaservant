@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exploring Data Science with Toy Projects — Thoughts of a Servant</title>
+  <meta name="description"
+    content="There’s something deeply satisfying about building something small that works — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.
+
+">
+
+  <!-- Fonts preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/assets/css/main.css">
+
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Thoughts of a Servant" />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Exploring Data Science with Toy Projects | Thoughts of a Servant</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Exploring Data Science with Toy Projects" />
+<meta name="author" content="Choonyong Chan" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="There’s something deeply satisfying about building something small that works — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects." />
+<meta property="og:description" content="There’s something deeply satisfying about building something small that works — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects." />
+<link rel="canonical" href="http://localhost:4000/projects/exploring-data-science-toy-projects/" />
+<meta property="og:url" content="http://localhost:4000/projects/exploring-data-science-toy-projects/" />
+<meta property="og:site_name" content="Thoughts of a Servant" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-02-18T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Exploring Data Science with Toy Projects" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Choonyong Chan"},"dateModified":"2026-02-18T00:00:00+00:00","datePublished":"2026-02-18T00:00:00+00:00","description":"There’s something deeply satisfying about building something small that works — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.","headline":"Exploring Data Science with Toy Projects","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/projects/exploring-data-science-toy-projects/"},"url":"http://localhost:4000/projects/exploring-data-science-toy-projects/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+</head>
+
+<body>
+
+  <header class="site-header">
+    <nav class="container nav-inner" aria-label="Main navigation">
+        <a href="/" class="site-logo">Thoughts of a Servant</a>
+
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/posts/">Posts</a></li>
+        </ul>
+    </nav>
+</header>
+
+  <main class="site-main">
+    <article class="container" itemscope itemtype="http://schema.org/BlogPosting">
+
+    
+
+    <header class="post-header">
+        
+        <span class="post-card__category post-card__category--projects">Projects</span>
+        
+
+        <h1 itemprop="headline">Exploring Data Science with Toy Projects</h1>
+
+        
+        <p class="post-subtitle">A deep dive into personal experiments with machine learning and statistics</p>
+        
+
+        <p class="post-meta">
+            <time datetime="2026-02-18T00:00:00+00:00" itemprop="datePublished">
+                February 18, 2026
+            </time>
+            · 461 words
+        </p>
+    </header>
+
+    
+    <div class="post-abstract" itemprop="abstract">
+        In this post, I explore a collection of toy projects aimed at learning new techniques in statistics and AI. I share my process, the challenges faced, and the potential real-world applications these simple projects can lead to.
+    </div>
+    
+
+    <div class="post-content" itemprop="articleBody">
+        <p>There’s something deeply satisfying about building something small that <em>works</em> — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.</p>
+
+<h2 id="why-toy-projects">Why Toy Projects?</h2>
+
+<p>Large-scale systems are intimidating. Toy projects strip away the noise and let you focus on a single concept:</p>
+
+<ul>
+  <li><strong>Isolation</strong> — You test one idea at a time.</li>
+  <li><strong>Speed</strong> — From idea to working code in an afternoon.</li>
+  <li><strong>Curiosity</strong> — No stakeholders, no deadlines — just learning.</li>
+</ul>
+
+<h2 id="project-1-bayesian-ab-testing-simulator">Project 1: Bayesian A/B Testing Simulator</h2>
+
+<p>I built a small Python simulator that compares two conversion rates using a Beta-Binomial model. The main insight: you can reach <em>practical</em> significance much faster than classical frequentist tests suggest.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="k">def</span> <span class="nf">bayesian_ab</span><span class="p">(</span><span class="n">alpha_a</span><span class="p">,</span> <span class="n">beta_a</span><span class="p">,</span> <span class="n">alpha_b</span><span class="p">,</span> <span class="n">beta_b</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
+    <span class="s">"""Return P(B &gt; A) using Monte Carlo sampling."""</span>
+    <span class="n">samples_a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha_a</span><span class="p">,</span> <span class="n">beta_a</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+    <span class="n">samples_b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha_b</span><span class="p">,</span> <span class="n">beta_b</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">samples_b</span> <span class="o">&gt;</span> <span class="n">samples_a</span><span class="p">).</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># After observing 120/1000 vs 145/1000 conversions
+</span><span class="n">prob</span> <span class="o">=</span> <span class="n">bayesian_ab</span><span class="p">(</span><span class="mi">120</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">880</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">145</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">855</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"P(B &gt; A) = </span><span class="si">{</span><span class="n">prob</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="key-takeaways">Key Takeaways</h3>
+
+<ol>
+  <li>The Bayesian approach naturally handles small sample sizes.</li>
+  <li>Posterior distributions give you a <em>range</em> of plausible values, not just a point estimate.</li>
+  <li>Communicating results as probabilities (“there’s a 94 % chance B is better”) is more intuitive for stakeholders.</li>
+</ol>
+
+<h2 id="project-2-k-means-from-scratch">Project 2: K-Means from Scratch</h2>
+
+<p>Implementing K-Means without <code class="language-plaintext highlighter-rouge">sklearn</code> forced me to understand the convergence criterion at a deeper level. The most surprising lesson: <strong>initialisation matters more than iteration count</strong>.</p>
+
+<h3 id="what-i-learned">What I Learned</h3>
+
+<ul>
+  <li>Random restarts are cheap insurance against poor local optima.</li>
+  <li>The elbow method is useful but subjective — silhouette scores provide a more principled alternative.</li>
+  <li>Visualising cluster assignments at each iteration builds strong geometric intuition.</li>
+</ul>
+
+<h2 id="whats-next">What’s Next?</h2>
+
+<p>I’m planning to explore:</p>
+
+<ul>
+  <li><strong>Dimensionality reduction</strong> — PCA and t-SNE on real-world text embeddings.</li>
+  <li><strong>Anomaly detection</strong> — Isolation forests applied to network traffic logs.</li>
+  <li><strong>Causal inference</strong> — Difference-in-differences on public policy datasets.</li>
+</ul>
+
+<hr />
+
+<p><em>What other applications of AI and statistics do you think can impact security? I’d love to hear your thoughts in the comments below.</em></p>
+
+    </div>
+
+    
+
+
+<div class="share-bar">
+    <span>Share:</span>
+    <a class="share-btn" href="https://twitter.com/intent/tweet?url=http://localhost:4000/projects/exploring-data-science-toy-projects/&text=Exploring%20Data%20Science%20with%20Toy%20Projects"
+        target="_blank" rel="noopener" aria-label="Share on Twitter">
+        𝕏 Twitter
+    </a>
+    <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=http://localhost:4000/projects/exploring-data-science-toy-projects/" target="_blank"
+        rel="noopener" aria-label="Share on LinkedIn">
+        in LinkedIn
+    </a>
+    <a class="share-btn" href="https://www.reddit.com/submit?url=http://localhost:4000/projects/exploring-data-science-toy-projects/&title=Exploring%20Data%20Science%20with%20Toy%20Projects"
+        target="_blank" rel="noopener" aria-label="Share on Reddit">
+        ⬡ Reddit
+    </a>
+</div>
+
+    
+    
+<section class="comments-section">
+    <h2>Comments</h2>
+    <p>Comments are coming soon! In the meantime, feel free to open an issue on <a
+            href="https://github.com/https://github.com/choonyongchan" target="_blank" rel="noopener">GitHub</a>.</p>
+</section>
+
+    
+
+</article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <ul class="footer-social">
+            
+            <li><a href="https://github.com/choonyongchan" target="_blank" rel="noopener">GitHub</a></li>
+            
+            
+            <li><a href="https://sg.linkedin.com/in/chanchoonyong" target="_blank" rel="noopener">LinkedIn</a></li>
+            
+            
+        </ul>
+        <p>&copy; 2026 Choonyong Chan.</p>
+        <a href="#" class="back-to-top">↑ Back to top</a>
+    </div>
+</footer>
+
+  <!-- Mobile nav toggle and Scroll effect -->
+  <script>
+    (function () {
+      var header = document.querySelector('.site-header');
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.querySelector('.nav-links');
+      var heroScroll = document.querySelector('.hero-scroll');
+      var mainContent = document.getElementById('main-content');
+      var genreFilter = document.getElementById('genre-filter');
+      var postSearch = document.getElementById('post-search');
+
+      // Show header immediately on non-home pages
+      if (header && !document.body.classList.contains('home-page')) {
+        header.classList.add('scrolled');
+      }
+
+      // Scroll effect (only relevant on home page)
+      if (header && document.body.classList.contains('home-page')) {
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 200) {
+            header.classList.add('scrolled');
+          } else {
+            header.classList.remove('scrolled');
+          }
+        });
+      }
+
+      if (toggle && nav) {
+        toggle.addEventListener('click', function () {
+          nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
+        });
+      }
+
+      // Smooth scroll from hero arrow to main content on home
+      if (heroScroll && mainContent) {
+        heroScroll.addEventListener('click', function (event) {
+          event.preventDefault();
+          mainContent.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+
+      // Posts page filters & search
+      function applyPostFilters() {
+        var cards = document.querySelectorAll('.post-card');
+        if (!cards.length) return;
+
+        var genreValue = genreFilter ? genreFilter.value : 'all';
+        var query = postSearch ? postSearch.value.trim().toLowerCase() : '';
+        var visibleCount = 0;
+
+        cards.forEach(function (card) {
+          var cardGenre = card.getAttribute('data-genre') || '';
+          var haystack = (card.getAttribute('data-search') || '').toLowerCase();
+
+          var matchesGenre = (genreValue === 'all') || (cardGenre === genreValue);
+          var matchesSearch = !query || haystack.indexOf(query) !== -1;
+
+          if (matchesGenre && matchesSearch) {
+            card.style.display = '';
+            visibleCount += 1;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        var visibleCountEl = document.querySelector('[data-post-visible-count]');
+        if (visibleCountEl) {
+          visibleCountEl.textContent = visibleCount;
+        }
+      }
+
+      if (genreFilter || postSearch) {
+        if (genreFilter) {
+          genreFilter.addEventListener('change', applyPostFilters);
+        }
+        if (postSearch) {
+          postSearch.addEventListener('input', applyPostFilters);
+        }
+      }
+    })();
+  </script>
+</body>
+
+</html>

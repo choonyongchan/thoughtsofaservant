@@ -1,0 +1,17 @@
+<footer class="site-footer">
+    <div class="container">
+        <ul class="footer-social">
+            {% if site.social.github and site.social.github != "" %}
+            <li><a href="{{ site.social.github }}" target="_blank" rel="noopener">GitHub</a></li>
+            {% endif %}
+            {% if site.social.linkedin and site.social.linkedin != "" %}
+            <li><a href="{{ site.social.linkedin }}" target="_blank" rel="noopener">LinkedIn</a></li>
+            {% endif %}
+            {% if site.social.twitter and site.social.twitter != "" %}
+            <li><a href="{{ site.social.twitter }}" target="_blank" rel="noopener">Twitter</a></li>
+            {% endif %}
+        </ul>
+        <p>&copy; {{ 'now' | date: "%Y" }} {{ site.author | default: "Choonyong Chan" }}.</p>
+        <a href="#" class="back-to-top">↑ Back to top</a>
+    </div>
+</footer>

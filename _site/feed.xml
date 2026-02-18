@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-02-18T15:15:02+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Thoughts of a Servant</title><subtitle>A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.</subtitle><author><name>Choonyong Chan</name></author><entry><title type="html">Best Cafés for Deep Work</title><link href="http://localhost:4000/life/best-cafes-for-deep-work/" rel="alternate" type="text/html" title="Best Cafés for Deep Work" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>http://localhost:4000/life/best-cafes-for-deep-work</id><content type="html" xml:base="http://localhost:4000/life/best-cafes-for-deep-work/"><![CDATA[<p>Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.</p>
+
+<h2 id="what-makes-a-great-deep-work-café">What Makes a Great Deep-Work Café?</h2>
+
+<p>Not every café is built for productivity. My checklist:</p>
+
+<ol>
+  <li><strong>Reliable Wi-Fi</strong> — Non-negotiable.</li>
+  <li><strong>Power outlets</strong> — Bonus points if they’re near the window seats.</li>
+  <li><strong>Noise level</strong> — A gentle hum, not a concert.</li>
+  <li><strong>Coffee quality</strong> — Life’s too short for bad espresso.</li>
+  <li><strong>Stay-friendly</strong> — No side-eye after the first hour.</li>
+</ol>
+
+<h2 id="my-current-favourites">My Current Favourites</h2>
+
+<h3 id="-the-grind-collective">☕ The Grind Collective</h3>
+
+<p>A minimalist space with long wooden tables, fast Wi-Fi, and an excellent pour-over menu. The baristas know their single-origin beans, and the playlist leans lo-fi hip-hop — which is basically the official soundtrack of focused work.</p>
+
+<p><strong>Best for:</strong> Long afternoon sessions.</p>
+
+<h3 id="-bloom--brew">☕ Bloom &amp; Brew</h3>
+
+<p>Tucked away in a quiet side street, this one surprises you with its airy interior and natural light. They have a “quiet zone” in the back — no phone calls, no group meetings. Just laptops and lattes.</p>
+
+<p><strong>Best for:</strong> Reading papers and writing.</p>
+
+<h3 id="-byte-café">☕ Byte Café</h3>
+
+<p>Yes, the name is on-the-nose, but the space delivers: standing desks, USB charging ports at every table, and a loyalty card that actually pays off. Their matcha latte is dangerously good.</p>
+
+<p><strong>Best for:</strong> Weekend hackathons.</p>
+
+<h2 id="a-few-tips">A Few Tips</h2>
+
+<ul>
+  <li><strong>Go early.</strong> The best seats are taken by 10 AM.</li>
+  <li><strong>Bring headphones.</strong> Even quiet cafés have their moments.</li>
+  <li><strong>Buy something every couple of hours.</strong> It’s only fair — and the pastries are usually worth it.</li>
+</ul>
+
+<hr />
+
+<p><em>Got a favourite deep-work café? Drop it in the comments — I’m always looking for new spots.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Life" /><summary type="html"><![CDATA[Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.]]></summary></entry><entry><title type="html">Exploring Data Science with Toy Projects</title><link href="http://localhost:4000/projects/exploring-data-science-toy-projects/" rel="alternate" type="text/html" title="Exploring Data Science with Toy Projects" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>http://localhost:4000/projects/exploring-data-science-toy-projects</id><content type="html" xml:base="http://localhost:4000/projects/exploring-data-science-toy-projects/"><![CDATA[<p>There’s something deeply satisfying about building something small that <em>works</em> — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.</p>
+
+<h2 id="why-toy-projects">Why Toy Projects?</h2>
+
+<p>Large-scale systems are intimidating. Toy projects strip away the noise and let you focus on a single concept:</p>
+
+<ul>
+  <li><strong>Isolation</strong> — You test one idea at a time.</li>
+  <li><strong>Speed</strong> — From idea to working code in an afternoon.</li>
+  <li><strong>Curiosity</strong> — No stakeholders, no deadlines — just learning.</li>
+</ul>
+
+<h2 id="project-1-bayesian-ab-testing-simulator">Project 1: Bayesian A/B Testing Simulator</h2>
+
+<p>I built a small Python simulator that compares two conversion rates using a Beta-Binomial model. The main insight: you can reach <em>practical</em> significance much faster than classical frequentist tests suggest.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+<span class="k">def</span> <span class="nf">bayesian_ab</span><span class="p">(</span><span class="n">alpha_a</span><span class="p">,</span> <span class="n">beta_a</span><span class="p">,</span> <span class="n">alpha_b</span><span class="p">,</span> <span class="n">beta_b</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
+    <span class="s">"""Return P(B &gt; A) using Monte Carlo sampling."""</span>
+    <span class="n">samples_a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha_a</span><span class="p">,</span> <span class="n">beta_a</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+    <span class="n">samples_b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha_b</span><span class="p">,</span> <span class="n">beta_b</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">samples_b</span> <span class="o">&gt;</span> <span class="n">samples_a</span><span class="p">).</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># After observing 120/1000 vs 145/1000 conversions
+</span><span class="n">prob</span> <span class="o">=</span> <span class="n">bayesian_ab</span><span class="p">(</span><span class="mi">120</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">880</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">145</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">855</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"P(B &gt; A) = </span><span class="si">{</span><span class="n">prob</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="key-takeaways">Key Takeaways</h3>
+
+<ol>
+  <li>The Bayesian approach naturally handles small sample sizes.</li>
+  <li>Posterior distributions give you a <em>range</em> of plausible values, not just a point estimate.</li>
+  <li>Communicating results as probabilities (“there’s a 94 % chance B is better”) is more intuitive for stakeholders.</li>
+</ol>
+
+<h2 id="project-2-k-means-from-scratch">Project 2: K-Means from Scratch</h2>
+
+<p>Implementing K-Means without <code class="language-plaintext highlighter-rouge">sklearn</code> forced me to understand the convergence criterion at a deeper level. The most surprising lesson: <strong>initialisation matters more than iteration count</strong>.</p>
+
+<h3 id="what-i-learned">What I Learned</h3>
+
+<ul>
+  <li>Random restarts are cheap insurance against poor local optima.</li>
+  <li>The elbow method is useful but subjective — silhouette scores provide a more principled alternative.</li>
+  <li>Visualising cluster assignments at each iteration builds strong geometric intuition.</li>
+</ul>
+
+<h2 id="whats-next">What’s Next?</h2>
+
+<p>I’m planning to explore:</p>
+
+<ul>
+  <li><strong>Dimensionality reduction</strong> — PCA and t-SNE on real-world text embeddings.</li>
+  <li><strong>Anomaly detection</strong> — Isolation forests applied to network traffic logs.</li>
+  <li><strong>Causal inference</strong> — Difference-in-differences on public policy datasets.</li>
+</ul>
+
+<hr />
+
+<p><em>What other applications of AI and statistics do you think can impact security? I’d love to hear your thoughts in the comments below.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Projects" /><summary type="html"><![CDATA[There’s something deeply satisfying about building something small that works — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.]]></summary></entry></feed>

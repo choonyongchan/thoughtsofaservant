@@ -1,0 +1,18 @@
+{% assign share_url = page.url | absolute_url %}
+{% assign share_title = page.title | uri_escape %}
+
+<div class="share-bar">
+    <span>Share:</span>
+    <a class="share-btn" href="https://twitter.com/intent/tweet?url={{ share_url }}&text={{ share_title }}"
+        target="_blank" rel="noopener" aria-label="Share on Twitter">
+        𝕏 Twitter
+    </a>
+    <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url }}" target="_blank"
+        rel="noopener" aria-label="Share on LinkedIn">
+        in LinkedIn
+    </a>
+    <a class="share-btn" href="https://www.reddit.com/submit?url={{ share_url }}&title={{ share_title }}"
+        target="_blank" rel="noopener" aria-label="Share on Reddit">
+        ⬡ Reddit
+    </a>
+</div>
