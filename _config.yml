@@ -3,7 +3,7 @@ title: "Thoughts of a Servant"
 description: "A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way."
 author: "Choonyong Chan"
 url: "" # e.g. https://username.github.io
-baseurl: "/thoughtsofaservant"
+baseurl: ""
 
 # Build
 markdown: kramdown
