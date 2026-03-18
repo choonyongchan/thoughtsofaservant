@@ -4,6 +4,8 @@ layout: default
 
 <article class="container" itemscope itemtype="http://schema.org/BlogPosting">
 
+    <a href="{{ '/stories/' | relative_url }}" class="post-back-link">← Stories</a>
+
     {% if page.cover %}
     <img class="post-cover" src="{{ page.cover | relative_url }}" alt="{{ page.title }}" itemprop="image">
     {% endif %}
@@ -23,7 +25,9 @@ layout: default
             <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
                 {{ page.date | date: "%B %-d, %Y" }}
             </time>
-            · {{ content | number_of_words }} words
+            {% assign words = content | number_of_words %}
+            {% assign minutes = words | divided_by: 200 | plus: 1 %}
+            · <span class="post-meta__reading-time">{{ minutes }} min read</span>
         </p>
     </header>
 

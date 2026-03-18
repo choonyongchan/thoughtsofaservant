@@ -5,14 +5,16 @@ title: Home
 
 <section class="hero">
     <div class="hero-content">
-        <h1 class="hero-title">Thoughts of a Servant</h1>
+        <h1 class="hero-title"><em>Thoughts of a Servant</em></h1>
     </div>
     <a href="#main-content" class="hero-scroll" aria-label="Scroll to main content"></a>
 </section>
 
 <div id="main-content" class="container">
     <header class="page-header">
-        <p>Toy projects in Statistics, Security, CS &amp; AI — plus life snippets along the way.</p>
+        <h2 class="section-heading">Recent Stories</h2>
+        <p>From Statistics to Security, Computer Science to AI - Solving real-world problems one project at a time. Plus some life snippets.</p>
+        <p class="section-subhint">Find all stories on the <a href="{{ '/stories/' | relative_url }}">Stories page →</a></p>
     </header>
 
     <div class="post-grid">
@@ -22,30 +24,31 @@ title: Home
             <img class="post-card__cover" src="{{ post.cover | relative_url }}" alt="{{ post.title }}">
             {% else %}
             <div class="post-card__cover"
-                style="background:linear-gradient(135deg,var(--color-lavender),var(--color-sky));"></div>
+                style="background:linear-gradient(135deg,var(--color-sky),var(--color-lavender));"></div>
             {% endif %}
             <div class="post-card__body">
                 {% if post.category %}
-                <span class="post-card__category post-card__category--{{ post.category | slugify }}">{{ post.category
-                    }}</span>
+                <span class="post-card__category post-card__category--{{ post.category | slugify }}">{{ post.category }}</span>
                 {% endif %}
                 <h2 class="post-card__title">{{ post.title }}</h2>
                 <p class="post-card__meta">{{ post.date | date: "%B %-d, %Y" }}</p>
-                <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncatewords: 28 }}</p>
+                <p class="post-card__excerpt">
+                    {% if post.abstract %}{{ post.abstract | truncatewords: 28 }}{% else %}{{ post.excerpt | strip_html | truncatewords: 28 }}{% endif %}
+                </p>
             </div>
         </a>
         {% endfor %}
     </div>
 </div>
 
-<section class="about-section">
+<section class="contact-section">
     <div class="container">
-        <div class="about-section__inner">
-            <h2 class="about-section__title">About Me</h2>
-            <p class="about-section__text">
-                Hello! I'm Choonyong Chan. I'm passionate about computing, statistics, and exploring the intersections
-                of technology and life. This blog is my digital garden where I share "Thoughts of a Servant" —
-                reflections on projects, learning, and service.
+        <div class="contact-section__inner">
+            <h2 class="contact-section__title">About Me</h2>
+            <p class="contact-section__text">
+                I'm Choonyong Chan — a computing enthusiast documenting toy projects and lessons learned
+                across Statistics, Security, Computer Science, and AI. I believe in learning by doing and
+                sharing what I discover along the way. Feel free to reach out or follow along.
             </p>
         </div>
     </div>

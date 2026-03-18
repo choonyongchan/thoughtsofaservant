@@ -48,3 +48,4 @@ exclude:
   - README.md
   - node_modules
   - vendor
+  - CLAUDE.md
