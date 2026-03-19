@@ -13,6 +13,7 @@
   --color-sky: #D6EAF8;
   --color-rose: #FAD4D4;
   --color-mint: #D5F5E3;
+  --color-steel: #D0DCF0;
   --color-text: #2C2C2C;
   --color-text-muted: #6B7280;
   --color-accent: #8B5CF6;
@@ -445,8 +446,8 @@ body:not(.home-page) .site-main {
 }
 
 .post-card__category--cybersecurity {
-  background: #1a2a45;
-  color: #5b9bd5;
+  background: var(--color-steel);
+  color: #1a3060;
 }
 
 .post-card__title {
