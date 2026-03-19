@@ -1,0 +1,251 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+
+    <!-- ── Backgrounds ── -->
+    <radialGradient id="bgBloom" cx="50%" cy="47%" r="55%" fx="50%" fy="47%">
+      <stop offset="0%"   stop-color="#0a18cc" stop-opacity="0.38"/>
+      <stop offset="45%"  stop-color="#040a2a" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#070710" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Wide side glows -->
+    <radialGradient id="leftEdgeGlow" cx="0%" cy="50%" r="40%">
+      <stop offset="0%"   stop-color="#1840ff" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#1840ff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="rightEdgeGlow" cx="100%" cy="50%" r="40%">
+      <stop offset="0%"   stop-color="#1840ff" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#1840ff" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Pillar gradients (vertical) -->
+    <linearGradient id="pillarGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#1030cc" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#2860ff" stop-opacity="0.7"/>
+      <stop offset="50%"  stop-color="#50a0ff" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#2860ff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#1030cc" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- ── Glow filters ── -->
+    <filter id="pillarGlow" x="-400%" y="0%" width="900%" height="100%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="pillarOuterGlow" x="-800%" y="0%" width="1700%" height="100%">
+      <feGaussianBlur stdDeviation="35"/>
+    </filter>
+
+    <filter id="crosshairGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+    <filter id="dotGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+
+    <filter id="arcGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+  </defs>
+
+  <!-- ════════════════════════════════════════
+       LAYER 1 — Background
+       ════════════════════════════════════════ -->
+  <rect width="1200" height="630" fill="#070710"/>
+
+  <!-- Central blue bloom -->
+  <rect width="1200" height="630" fill="url(#bgBloom)"/>
+
+  <!-- Wide left + right edge atmospheric glow -->
+  <rect width="1200" height="630" fill="url(#leftEdgeGlow)"/>
+  <rect width="1200" height="630" fill="url(#rightEdgeGlow)"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 2 — Vertical neon pillars
+       ════════════════════════════════════════ -->
+
+  <!-- Left pillar — outer wide bloom -->
+  <rect x="0" y="0" width="14" height="630" fill="url(#pillarGrad)" filter="url(#pillarOuterGlow)" opacity="0.6"/>
+  <!-- Left pillar — core bright line -->
+  <rect x="4" y="0" width="6" height="630" fill="url(#pillarGrad)" filter="url(#pillarGlow)" opacity="0.95"/>
+
+  <!-- Right pillar — outer wide bloom -->
+  <rect x="1186" y="0" width="14" height="630" fill="url(#pillarGrad)" filter="url(#pillarOuterGlow)" opacity="0.6"/>
+  <!-- Right pillar — core bright line -->
+  <rect x="1190" y="0" width="6" height="630" fill="url(#pillarGrad)" filter="url(#pillarGlow)" opacity="0.95"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 3 — Perspective floor grid
+       VP at (600, 360)
+       ════════════════════════════════════════ -->
+  <g stroke="#1530ff" stroke-width="0.8" fill="none">
+    <!-- Radial lines from VP to bottom edge, fanning left/right -->
+    <!-- Far left to far right — opacity increases toward viewer -->
+    <line x1="600" y1="360" x2="-20"  y2="630" opacity="0.08"/>
+    <line x1="600" y1="360" x2="90"   y2="630" opacity="0.10"/>
+    <line x1="600" y1="360" x2="200"  y2="630" opacity="0.12"/>
+    <line x1="600" y1="360" x2="310"  y2="630" opacity="0.14"/>
+    <line x1="600" y1="360" x2="420"  y2="630" opacity="0.16"/>
+    <line x1="600" y1="360" x2="510"  y2="630" opacity="0.18"/>
+    <line x1="600" y1="360" x2="600"  y2="630" opacity="0.20"/>
+    <line x1="600" y1="360" x2="690"  y2="630" opacity="0.18"/>
+    <line x1="600" y1="360" x2="780"  y2="630" opacity="0.16"/>
+    <line x1="600" y1="360" x2="890"  y2="630" opacity="0.14"/>
+    <line x1="600" y1="360" x2="1000" y2="630" opacity="0.12"/>
+    <line x1="600" y1="360" x2="1110" y2="630" opacity="0.10"/>
+    <line x1="600" y1="360" x2="1220" y2="630" opacity="0.08"/>
+
+    <!-- Horizontal cross lines — perspective spaced -->
+    <line x1="0" y1="420" x2="1200" y2="420" opacity="0.07"/>
+    <line x1="0" y1="460" x2="1200" y2="460" opacity="0.10"/>
+    <line x1="0" y1="500" x2="1200" y2="500" opacity="0.13"/>
+    <line x1="0" y1="545" x2="1200" y2="545" opacity="0.18"/>
+    <line x1="0" y1="590" x2="1200" y2="590" opacity="0.23"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 4 — Domain infrastructure silhouettes
+       Browser address-bar shapes in a loose arc above VP
+       A few tinted red = flagged/malicious
+       ════════════════════════════════════════ -->
+
+  <!-- Connection lines from bars toward crosshair (600, 295) -->
+  <g stroke="#1030aa" stroke-width="0.7" fill="none" opacity="0.3">
+    <line x1="220" y1="195" x2="520" y2="295"/>
+    <line x1="310" y1="130" x2="560" y2="285"/>
+    <line x1="430" y1="100" x2="580" y2="275"/>
+    <line x1="590" y1="115" x2="600" y2="265"/>
+    <line x1="730" y1="105" x2="625" y2="278"/>
+    <line x1="870" y1="130" x2="645" y2="288"/>
+    <line x1="960" y1="190" x2="665" y2="298"/>
+    <line x1="430" y1="100" x2="310" y2="130"/>
+    <line x1="590" y1="115" x2="730" y2="105"/>
+    <line x1="870" y1="130" x2="960" y2="190"/>
+    <line x1="155" y1="260" x2="220" y2="195"/>
+    <line x1="1020" y1="255" x2="960" y2="190"/>
+  </g>
+
+  <!-- Normal domain bars -->
+  <g fill="#0a0f20" stroke="#1840cc" stroke-width="1" opacity="0.65">
+    <!-- Arc across upper third of canvas -->
+    <rect x="190" y="182" width="72" height="20" rx="3"/>
+    <rect x="280" y="115" width="88" height="20" rx="3"/>
+    <rect x="400"  y="87" width="80" height="20" rx="3"/>
+    <rect x="555" y="102" width="76" height="20" rx="3"/>
+    <rect x="695"  y="90" width="82" height="20" rx="3"/>
+    <rect x="835" y="118" width="74" height="20" rx="3"/>
+    <rect x="930" y="175" width="70" height="20" rx="3"/>
+    <!-- Outer arc, slightly further -->
+    <rect x="120" y="248" width="66" height="18" rx="3"/>
+    <rect x="1002" y="242" width="66" height="18" rx="3"/>
+    <!-- A couple drifting higher -->
+    <rect x="470" y="55" width="60" height="16" rx="3"/>
+    <rect x="650" y="60" width="58" height="16" rx="3"/>
+  </g>
+
+  <!-- Flagged / malicious domain bars — faint red inner tint -->
+  <g fill="#180008" stroke="#3a0a1a" stroke-width="1" opacity="0.7">
+    <rect x="310" y="115" width="88" height="20" rx="3"/>
+    <rect x="835" y="118" width="74" height="20" rx="3"/>
+    <rect x="470"  y="55" width="60" height="16" rx="3"/>
+  </g>
+  <!-- Faint red stroke override on flagged bars -->
+  <g fill="none" stroke="#aa2030" stroke-width="0.8" opacity="0.45">
+    <rect x="310" y="115" width="88" height="20" rx="3"/>
+    <rect x="835" y="118" width="74" height="20" rx="3"/>
+    <rect x="470"  y="55" width="60" height="16" rx="3"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 5 — Central targeting crosshair / scanner
+       Centre: (600, 295)
+       ════════════════════════════════════════ -->
+
+  <!-- Outer circle -->
+  <circle cx="600" cy="295" r="130"
+          fill="none" stroke="#2855ff" stroke-width="1"
+          opacity="0.5" filter="url(#crosshairGlow)"/>
+
+  <!-- Inner circle -->
+  <circle cx="600" cy="295" r="50"
+          fill="none" stroke="#2855ff" stroke-width="1"
+          opacity="0.7" filter="url(#crosshairGlow)"/>
+
+  <!-- Crosshair tick marks — 12, 3, 6, 9 o'clock -->
+  <g stroke="#3a6aff" stroke-width="1.5" stroke-linecap="round" opacity="0.8">
+    <!-- 12 o'clock -->
+    <line x1="600" y1="155" x2="600" y2="175"/>
+    <!-- 6 o'clock -->
+    <line x1="600" y1="415" x2="600" y2="435"/>
+    <!-- 9 o'clock -->
+    <line x1="460" y1="295" x2="480" y2="295"/>
+    <!-- 3 o'clock -->
+    <line x1="720" y1="295" x2="740" y2="295"/>
+  </g>
+
+  <!-- Scanning arc — ~120° sweep, top-right quadrant -->
+  <!-- Arc from roughly 330° to 90° (measuring from 3 o'clock = 0°, going counter-clockwise) -->
+  <!-- Path: M start-of-arc A rx ry 0 0 0 end-of-arc -->
+  <!-- 330° from centre+130: x=600+130*cos(-30°)=600+112.6=712.6, y=295+130*sin(-30°)=295-65=230 -->
+  <!-- 90° from centre+130: x=600+0=600, y=295-130=165 -->
+  <path d="M 712.6,230 A 130,130 0 0,0 487.4,230"
+        fill="none" stroke="#4488ff" stroke-width="2"
+        opacity="0.85" filter="url(#arcGlow)"/>
+
+  <!-- Centre pulse dot — glow bloom -->
+  <circle cx="600" cy="295" r="10"
+          fill="#1840ff" opacity="0.35" filter="url(#dotGlow)"/>
+  <!-- Centre pulse dot — bright core -->
+  <circle cx="600" cy="295" r="4"
+          fill="#70b0ff" opacity="0.9"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 6 — Ambient CT log data particles
+       ════════════════════════════════════════ -->
+
+  <!-- Tiny dots scattered across the frame -->
+  <g fill="#1840ff">
+    <circle cx="85"  cy="55"  r="1.5" opacity="0.4"/>
+    <circle cx="190" cy="40"  r="1"   opacity="0.3"/>
+    <circle cx="330" cy="70"  r="1.5" opacity="0.35"/>
+    <circle cx="450" cy="35"  r="1"   opacity="0.25"/>
+    <circle cx="620" cy="48"  r="1.5" opacity="0.4"/>
+    <circle cx="770" cy="38"  r="1"   opacity="0.3"/>
+    <circle cx="910" cy="62"  r="1.5" opacity="0.35"/>
+    <circle cx="1050" cy="45" r="1"   opacity="0.3"/>
+    <circle cx="1130" cy="58" r="1.5" opacity="0.4"/>
+
+    <circle cx="55"  cy="340" r="1"   opacity="0.25"/>
+    <circle cx="140" cy="310" r="1.5" opacity="0.3"/>
+    <circle cx="1080" cy="320" r="1"  opacity="0.25"/>
+    <circle cx="1160" cy="345" r="1.5" opacity="0.3"/>
+
+    <circle cx="250" cy="490" r="1"   opacity="0.2"/>
+    <circle cx="420" cy="530" r="1.5" opacity="0.25"/>
+    <circle cx="780" cy="520" r="1"   opacity="0.2"/>
+    <circle cx="950" cy="500" r="1.5" opacity="0.25"/>
+
+    <circle cx="100" cy="165" r="1"   opacity="0.3"/>
+    <circle cx="1100" cy="170" r="1"  opacity="0.3"/>
+    <circle cx="350" cy="340" r="1"   opacity="0.2"/>
+    <circle cx="860" cy="330" r="1"   opacity="0.2"/>
+    <circle cx="500" cy="450" r="1.5" opacity="0.22"/>
+    <circle cx="700" cy="465" r="1"   opacity="0.2"/>
+    <circle cx="200" cy="570" r="1"   opacity="0.18"/>
+    <circle cx="1000" cy="565" r="1"  opacity="0.18"/>
+  </g>
+
+  <!-- Short horizontal dashes — CT log stream, near top -->
+  <g fill="#1535cc" opacity="0.3">
+    <rect x="60"  y="28" width="38" height="2" rx="1"/>
+    <rect x="260" y="22" width="28" height="2" rx="1"/>
+    <rect x="820" y="25" width="32" height="2" rx="1"/>
+    <rect x="1100" y="30" width="36" height="2" rx="1"/>
+  </g>
+
+</svg>

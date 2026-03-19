@@ -2,8 +2,9 @@
 title: "Hunting Scam Domains Before They Strike with CertStream"
 subtitle: "How Certificate Transparency logs can power proactive threat hunting at scale"
 date: 2026-03-19
-category: Projects
+category: Cybersecurity
 abstract: "Scam syndicates now deploy and retire web domains at machine speed. In this post, I share how my research team used CertStream — a real-time Certificate Transparency feed — to monitor millions of newly registered domains and detect potential scam sites before they claim their first victims."
+cover: /assets/images/covers/certstream-cover.svg
 comments: true
 ---
 

@@ -444,6 +444,11 @@ body:not(.home-page) .site-main {
   color: #922b1e;
 }
 
+.post-card__category--cybersecurity {
+  background: #1a2a45;
+  color: #5b9bd5;
+}
+
 .post-card__title {
   font-family: 'Lora', serif;
   font-size: 1.25rem;
