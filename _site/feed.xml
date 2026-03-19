@@ -1,4 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-03-18T06:51:18+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Thoughts of a Servant</title><subtitle>A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.</subtitle><author><name>Choonyong Chan</name></author><entry><title type="html">Best Cafés for Deep Work</title><link href="http://localhost:4000/life/best-cafes-for-deep-work/" rel="alternate" type="text/html" title="Best Cafés for Deep Work" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>http://localhost:4000/life/best-cafes-for-deep-work</id><content type="html" xml:base="http://localhost:4000/life/best-cafes-for-deep-work/"><![CDATA[<p>Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2026-03-19T07:21:27+00:00</updated><id>/feed.xml</id><title type="html">Thoughts of a Servant</title><subtitle>A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.</subtitle><author><name>Choonyong Chan</name></author><entry><title type="html">Hunting Scam Domains Before They Strike with CertStream</title><link href="/projects/hunting-scam-domains-before-they-strike-with-certstream/" rel="alternate" type="text/html" title="Hunting Scam Domains Before They Strike with CertStream" /><published>2026-03-19T00:00:00+00:00</published><updated>2026-03-19T00:00:00+00:00</updated><id>/projects/hunting-scam-domains-before-they-strike-with-certstream</id><content type="html" xml:base="/projects/hunting-scam-domains-before-they-strike-with-certstream/"><![CDATA[<p>Here’s something that genuinely surprised me: modern scam operations are run like software companies.</p>
+
+<p>They have CI/CD pipelines. They spin up cloud infrastructure on demand. They automate the deployment of thousands of scam websites, run them briefly, then tear them down before anyone can respond. Research by <a href="https://www.group-ib.com/media-center/press-releases/classiscam-2023/">Group-IB</a> shows that organised scam syndicates have adopted the same DevOps practices your favourite tech companies use — except they’re using it to steal from people. Their investigation into <em>Classiscam</em>, a scam-as-a-service operation, found 38,000 members organised across Telegram groups with defined roles, using bots to spin up fake phishing pages on demand — a supply chain for fraud that earned an estimated $64.5 million across 251 brands in 79 countries.</p>
+
+<p>That realisation changed how I think about cybersecurity. And it led my team to build something small, clever, and — I think — genuinely useful.</p>
+
+<h2 id="the-problem-with-playing-defence">The Problem with Playing Defence</h2>
+
+<p>The traditional playbook for tackling scam websites goes something like this: a victim reports a suspicious link → an analyst investigates → the domain gets flagged or taken down. Clean. Logical. Thoroughly outdated.</p>
+
+<p>Here’s why. A scam syndicate today doesn’t need a domain to last more than a few hours. They register a new domain, run a scam campaign on it, and retire it the moment it’s been accessed once — or even sooner. By the time a victim reports the link, the website is already gone. By the time an analyst looks at it, the domain resolves to nothing. The takedown request goes nowhere.</p>
+
+<p>Throwing more web crawlers at the problem sounds appealing — just enumerate <em>all</em> the domains! — but that’s prohibitively expensive and still fundamentally reactive. We needed a way to catch scam domains before they reach their first victim, not after.</p>
+
+<h2 id="an-unexpected-clue-in-plain-sight">An Unexpected Clue in Plain Sight</h2>
+
+<p>Here’s where it gets interesting. Modern browsers are ruthless about unencrypted or untrusted connections. Navigate to a site without a valid HTTPS certificate and you’re greeted with a giant red warning page. For a scam site trying to look legitimate, that warning is a conversion killer.</p>
+
+<p>This means scam domains <em>have</em> to obtain a valid HTTPS certificate. There’s no way around it.</p>
+
+<p>And here’s the thing about HTTPS certificates: every single one is publicly logged. Certificate Transparency (CT) is an open standard that requires Certificate Authorities to record every certificate they issue into append-only public logs. The goal is accountability — anyone can audit who issued what, to whom, and when.</p>
+
+<p>But as a side effect, CT logs are a live feed of every domain that is in the process of going online. Including scam domains.</p>
+
+<p><a href="https://calidog.io/">Cali Dog Security</a> built <a href="https://certstream.calidog.io/">CertStream</a> to make this feed accessible. It’s a real-time WebSocket stream of certificate issuance events — open, free, and broadcasting millions of domain names every day. When I first heard about it, I immediately thought: <em>this is our early warning system</em>.</p>
+
+<h2 id="what-we-built">What We Built</h2>
+
+<p>The concept is straightforward: listen to the CertStream feed, and flag any domain that looks like it could be impersonating a brand or entity we’re protecting.</p>
+
+<p>We express “looks like” as a set of regex patterns — one per line in a simple text file. To monitor for domains targeting a bank, you might write:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.*mybank.*
+.*my-bank.*
+.*mybank-secure.*
+</code></pre></div></div>
+
+<p>Our tool subscribes to the CertStream WebSocket, processes each incoming certificate event, strips the domain variants (with and without <code class="language-plaintext highlighter-rouge">www.</code>, <code class="language-plaintext highlighter-rouge">*.</code>, <code class="language-plaintext highlighter-rouge">https://</code>), and checks them against the compiled pattern list. Any match gets logged to a SQLite database and exported for further analysis.</p>
+
+<p>The flow looks like this:</p>
+
+<blockquote>
+  <p><strong>CT Server → WebSocket stream → sanitise domains → match regex → store hits → export for analysis</strong></p>
+</blockquote>
+
+<p>That’s it. No web crawlers. No enumeration. No waiting for a user to report anything. The scam domains come to us.</p>
+
+<h2 id="results">Results</h2>
+
+<p>When we deployed this alongside our team’s existing domain analysis tooling, the effect was immediate: we effectively <strong>doubled our search space for suspicious domains</strong> without proportionally increasing our workload. More importantly, we were now seeing domains at the moment of certificate issuance — which is often <em>before</em> the site is even reachable to the public.</p>
+
+<p>For a Digital Risk Protection team, that’s a significant shift. Instead of responding to threats, we were meeting them at the door.</p>
+
+<h2 id="who-should-care-about-this">Who Should Care About This</h2>
+
+<p>If you’re on a <strong>Digital Risk Protection team</strong>, this approach is directly applicable. Swap in the brand keywords you’re protecting and you have a 24/7 monitoring feed that never sleeps.</p>
+
+<p>If you’re a <strong>company trying to assess your own digital risk</strong>, running this against your own brand names gives you a rough — and surprisingly sobering — sense of how actively threat actors target your identity online.</p>
+
+<p>And if you’re a <strong>security researcher or student</strong>, I’d encourage you to look at this as a template for creative problem solving: what other public, boring-sounding infrastructure quietly records everything you’d ever want to know?</p>
+
+<p>The natural next step is a downstream analysis stage — an AI/ML classifier that quickly triages matches between genuine threats and false positives, either automatically or with a human in the loop. That’s what we’re working on next with <strong>BrandSentinel</strong>. Both projects are being open-sourced as a gift to the cybersecurity community, because good tools should be shared.</p>
+
+<h2 id="what-i-took-away">What I Took Away</h2>
+
+<p><strong>1. The threat landscape moves faster than you think.</strong> I knew scam campaigns were a problem. I didn’t fully appreciate that they had industrialised to the point of using orchestration frameworks and automated infrastructure. That shift changes everything about how we need to respond.</p>
+
+<p><strong>2. Cybersecurity rewards lateral thinking.</strong> The instinct is to do more of what already works — bigger crawlers, more analysts. The better question is: <em>what does the attacker have to do that we can intercept?</em> CT logs were the answer hiding in plain sight.</p>
+
+<p><strong>3. Open source makes this possible.</strong> CertStream is a free, open initiative. Without it, building this capability would have required months of infrastructure work. The open source community quietly lowers the barrier to entry for exactly this kind of innovation, and that’s worth celebrating.</p>
+
+<hr />
+
+<p><em>What other open data feeds or public infrastructure do you think are sitting underused as threat intelligence sources? I’d love to hear what you’re thinking in the comments.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Projects" /><summary type="html"><![CDATA[Here’s something that genuinely surprised me: modern scam operations are run like software companies.]]></summary></entry><entry><title type="html">Best Cafés for Deep Work</title><link href="/life/best-cafes-for-deep-work/" rel="alternate" type="text/html" title="Best Cafés for Deep Work" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>/life/best-cafes-for-deep-work</id><content type="html" xml:base="/life/best-cafes-for-deep-work/"><![CDATA[<p>Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.</p>
 
 <h2 id="what-makes-a-great-deep-work-café">What Makes a Great Deep-Work Café?</h2>
 
@@ -42,7 +115,7 @@
 
 <hr />
 
-<p><em>Got a favourite deep-work café? Drop it in the comments — I’m always looking for new spots.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Life" /><summary type="html"><![CDATA[Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.]]></summary></entry><entry><title type="html">Exploring Data Science with Toy Projects</title><link href="http://localhost:4000/projects/exploring-data-science-toy-projects/" rel="alternate" type="text/html" title="Exploring Data Science with Toy Projects" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>http://localhost:4000/projects/exploring-data-science-toy-projects</id><content type="html" xml:base="http://localhost:4000/projects/exploring-data-science-toy-projects/"><![CDATA[<p>There’s something deeply satisfying about building something small that <em>works</em> — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.</p>
+<p><em>Got a favourite deep-work café? Drop it in the comments — I’m always looking for new spots.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Life" /><summary type="html"><![CDATA[Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.]]></summary></entry><entry><title type="html">Exploring Data Science with Toy Projects</title><link href="/projects/exploring-data-science-toy-projects/" rel="alternate" type="text/html" title="Exploring Data Science with Toy Projects" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>/projects/exploring-data-science-toy-projects</id><content type="html" xml:base="/projects/exploring-data-science-toy-projects/"><![CDATA[<p>There’s something deeply satisfying about building something small that <em>works</em> — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.</p>
 
 <h2 id="why-toy-projects">Why Toy Projects?</h2>
 
