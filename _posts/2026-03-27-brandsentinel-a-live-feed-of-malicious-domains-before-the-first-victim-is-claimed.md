@@ -8,7 +8,7 @@ cover: /assets/images/covers/brandsentinel-cover.svg
 comments: true
 ---
 
-When we pointed CertStream at two Singapore banks, it surfaced over three hundred suspicious domains in a single week. No human team could triage that volume before the threats became active. So we built a machine to do it — one that classifies domains in real time, flags the dangerous ones before the first victim ever loads the page, and hands analysts a curated shortlist instead of a firehose. This is the story of how that tool came to be, what it took to build it, and what it taught us about defending brands at machine speed.
+When we pointed CertStream at two influential Singapore organisations, it surfaced over ten thousands of suspicious domains in a single day. No human team could triage that volume before the threats became active. So we built a machine to do it — one that classifies domains in real time, flags the dangerous ones before the first victim ever loads the page, and hands analysts a curated shortlist instead of a firehose. This is the story of how that tool came to be, what it took to build it, and what it taught us about defending brands at machine speed.
 
 ---
 
@@ -24,7 +24,7 @@ In [my previous post](./2026-03-19-hunting-scam-domains-before-they-strike-with-
 
 The problem we were left with was a different one entirely: **volume**.
 
-CertStream processes millions of certificate events every day. Even after filtering to domains that contain your brand keywords, you're looking at hundreds of candidates per day for a single brand. A human analyst cannot manually investigate each one fast enough for the intelligence to be actionable. By the time they've worked through the queue, the scam domains they flagged are either weaponised or gone.
+CertStream processes millions of certificate events every day. Even after filtering to domains that contain your brand keywords, you're looking at thousands of candidates per day for a single brand. A human analyst cannot manually investigate each one fast enough for the intelligence to be actionable. By the time they've worked through the queue, the scam domains they flagged are either weaponised or gone.
 
 We had solved the sourcing problem. We had created a new one.
 
@@ -84,7 +84,7 @@ An early prototype ran only two heuristics: the **inactive domain check** and th
 
 Of every hundred domains flagged by the brand keyword filter, roughly **ninety-five were resolved by those two heuristics alone**. The inactive check cleared out domains that had been registered but not yet deployed — or already retired. The parking check cleared out benign infrastructure that had been registered speculatively by domain investors, not attackers. What remained — the five or so domains that were live, active, and neither parked nor obviously benign — was the set that actually warranted human attention.
 
-In operational terms, my team of DRP analyst colleagues who previously faced up to a thousand manual lookups per day was reduced to reviewing fewer than a handful. The pipeline had not replaced the analyst. It had surely given them back their day for customer engagement.
+In operational terms, this meant a DRP analyst who previously faced a hundred manual lookups per day was reduced to reviewing fewer than ten. The pipeline had not replaced the analyst. It had given them back their day.
 
 ### Discussion
 
