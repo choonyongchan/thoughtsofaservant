@@ -1,0 +1,398 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+
+    <!-- ── Backgrounds ── -->
+    <radialGradient id="bgBloom" cx="50%" cy="46%" r="55%" fx="50%" fy="46%">
+      <stop offset="0%"   stop-color="#0a14aa" stop-opacity="0.40"/>
+      <stop offset="45%"  stop-color="#040a2a" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#070710" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="threatRight" cx="88%" cy="44%" r="32%">
+      <stop offset="0%"   stop-color="#cc1818" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#cc1818" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="threatLeft" cx="16%" cy="50%" r="28%">
+      <stop offset="0%"   stop-color="#cc1818" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#cc1818" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="threatTop" cx="63%" cy="12%" r="22%">
+      <stop offset="0%"   stop-color="#cc1818" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#cc1818" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Pillar gradient (vertical) -->
+    <linearGradient id="pillarGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#1030cc" stop-opacity="0"/>
+      <stop offset="20%"  stop-color="#2860ff" stop-opacity="0.7"/>
+      <stop offset="50%"  stop-color="#50a0ff" stop-opacity="1"/>
+      <stop offset="80%"  stop-color="#2860ff" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#1030cc" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Shield gradients (userSpaceOnUse, shield top y=225 → tip y=398) -->
+    <linearGradient id="shieldFill" x1="600" y1="225" x2="600" y2="398" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#1840ff" stop-opacity="0.45"/>
+      <stop offset="60%"  stop-color="#0c2888" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0a1860" stop-opacity="0.22"/>
+    </linearGradient>
+    <linearGradient id="shieldStroke" x1="600" y1="225" x2="600" y2="398" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#99ccff"/>
+      <stop offset="40%"  stop-color="#4488ff"/>
+      <stop offset="100%" stop-color="#1844aa"/>
+    </linearGradient>
+
+    <!-- ── Glow filters ── -->
+    <filter id="pillarGlow" x="-400%" y="0%" width="900%" height="100%">
+      <feGaussianBlur stdDeviation="18" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="pillarOuterGlow" x="-800%" y="0%" width="1700%" height="100%">
+      <feGaussianBlur stdDeviation="35"/>
+    </filter>
+    <filter id="shieldBloom" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+    <filter id="shieldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="ringGlow" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="arcGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="impactBloom" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+    <filter id="impactGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="dotGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <filter id="eyeGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+
+  </defs>
+
+  <!-- ════════════════════════════════════════
+       LAYER 1 — Background
+       ════════════════════════════════════════ -->
+  <rect width="1200" height="630" fill="#070710"/>
+  <rect width="1200" height="630" fill="url(#bgBloom)"/>
+  <rect width="1200" height="630" fill="url(#threatRight)"/>
+  <rect width="1200" height="630" fill="url(#threatLeft)"/>
+  <rect width="1200" height="630" fill="url(#threatTop)"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 2 — Vertical neon pillars
+       ════════════════════════════════════════ -->
+  <rect x="0"    y="0" width="14" height="630" fill="url(#pillarGrad)" filter="url(#pillarOuterGlow)" opacity="0.6"/>
+  <rect x="4"    y="0" width="6"  height="630" fill="url(#pillarGrad)" filter="url(#pillarGlow)"      opacity="0.95"/>
+  <rect x="1186" y="0" width="14" height="630" fill="url(#pillarGrad)" filter="url(#pillarOuterGlow)" opacity="0.6"/>
+  <rect x="1190" y="0" width="6"  height="630" fill="url(#pillarGrad)" filter="url(#pillarGlow)"      opacity="0.95"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 3 — Hexagonal grid (upper corners, atmospheric)
+       Flat-top hexagons edge ~56px wide; only outer columns rendered
+       ════════════════════════════════════════ -->
+  <g stroke="#1535aa" stroke-width="0.7" fill="none" opacity="0.15">
+    <!-- Left column, rows A–D -->
+    <polygon points="60,10 84,10 96,30 84,50 60,50 48,30"/>
+    <polygon points="116,10 140,10 152,30 140,50 116,50 104,30"/>
+    <polygon points="172,10 196,10 208,30 196,50 172,50 160,30"/>
+    <polygon points="228,10 252,10 264,30 252,50 228,50 216,30"/>
+    <polygon points="284,10 308,10 320,30 308,50 284,50 272,30"/>
+    <polygon points="32,60 56,60 68,80 56,100 32,100 20,80"/>
+    <polygon points="88,60 112,60 124,80 112,100 88,100 76,80"/>
+    <polygon points="144,60 168,60 180,80 168,100 144,100 132,80"/>
+    <polygon points="200,60 224,60 236,80 224,100 200,100 188,80"/>
+    <polygon points="256,60 280,60 292,80 280,100 256,100 244,80"/>
+    <polygon points="312,60 336,60 348,80 336,100 312,100 300,80"/>
+    <polygon points="60,110 84,110 96,130 84,150 60,150 48,130"/>
+    <polygon points="116,110 140,110 152,130 140,150 116,150 104,130"/>
+    <polygon points="172,110 196,110 208,130 196,150 172,150 160,130"/>
+    <polygon points="228,110 252,110 264,130 252,150 228,150 216,130"/>
+    <polygon points="32,160 56,160 68,180 56,200 32,200 20,180"/>
+    <polygon points="88,160 112,160 124,180 112,200 88,200 76,180"/>
+    <polygon points="144,160 168,160 180,180 168,200 144,200 132,180"/>
+    <!-- Right column, rows A–D -->
+    <polygon points="892,10 916,10 928,30 916,50 892,50 880,30"/>
+    <polygon points="948,10 972,10 984,30 972,50 948,50 936,30"/>
+    <polygon points="1004,10 1028,10 1040,30 1028,50 1004,50 992,30"/>
+    <polygon points="1060,10 1084,10 1096,30 1084,50 1060,50 1048,30"/>
+    <polygon points="1116,10 1140,10 1152,30 1140,50 1116,50 1104,30"/>
+    <polygon points="864,60 888,60 900,80 888,100 864,100 852,80"/>
+    <polygon points="920,60 944,60 956,80 944,100 920,100 908,80"/>
+    <polygon points="976,60 1000,60 1012,80 1000,100 976,100 964,80"/>
+    <polygon points="1032,60 1056,60 1068,80 1056,100 1032,100 1020,80"/>
+    <polygon points="1088,60 1112,60 1124,80 1112,100 1088,100 1076,80"/>
+    <polygon points="1144,60 1168,60 1180,80 1168,100 1144,100 1132,80"/>
+    <polygon points="1004,110 1028,110 1040,130 1028,150 1004,150 992,130"/>
+    <polygon points="1060,110 1084,110 1096,130 1084,150 1060,150 1048,130"/>
+    <polygon points="1116,110 1140,110 1152,130 1140,150 1116,150 1104,130"/>
+    <polygon points="1032,160 1056,160 1068,180 1056,200 1032,200 1020,180"/>
+    <polygon points="1088,160 1112,160 1124,180 1112,200 1088,200 1076,180"/>
+    <polygon points="1144,160 1168,160 1180,180 1168,200 1144,200 1132,180"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 4 — Perspective floor grid  VP at (600, 360)
+       ════════════════════════════════════════ -->
+  <g stroke="#1530ff" stroke-width="0.8" fill="none">
+    <line x1="600" y1="360" x2="-20"  y2="630" opacity="0.08"/>
+    <line x1="600" y1="360" x2="90"   y2="630" opacity="0.10"/>
+    <line x1="600" y1="360" x2="200"  y2="630" opacity="0.12"/>
+    <line x1="600" y1="360" x2="310"  y2="630" opacity="0.14"/>
+    <line x1="600" y1="360" x2="420"  y2="630" opacity="0.16"/>
+    <line x1="600" y1="360" x2="510"  y2="630" opacity="0.18"/>
+    <line x1="600" y1="360" x2="600"  y2="630" opacity="0.20"/>
+    <line x1="600" y1="360" x2="690"  y2="630" opacity="0.18"/>
+    <line x1="600" y1="360" x2="780"  y2="630" opacity="0.16"/>
+    <line x1="600" y1="360" x2="890"  y2="630" opacity="0.14"/>
+    <line x1="600" y1="360" x2="1000" y2="630" opacity="0.12"/>
+    <line x1="600" y1="360" x2="1110" y2="630" opacity="0.10"/>
+    <line x1="600" y1="360" x2="1220" y2="630" opacity="0.08"/>
+    <line x1="0" y1="420" x2="1200" y2="420" opacity="0.07"/>
+    <line x1="0" y1="460" x2="1200" y2="460" opacity="0.10"/>
+    <line x1="0" y1="500" x2="1200" y2="500" opacity="0.13"/>
+    <line x1="0" y1="545" x2="1200" y2="545" opacity="0.18"/>
+    <line x1="0" y1="590" x2="1200" y2="590" opacity="0.23"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 5 — Connection lines  (all → shield centre 600,290)
+       ════════════════════════════════════════ -->
+  <!-- Normal domains — solid blue -->
+  <g stroke="#1030aa" stroke-width="0.7" fill="none" opacity="0.32">
+    <line x1="575" y1="140" x2="598" y2="210"/>
+    <line x1="705" y1="177" x2="660" y2="225"/>
+    <line x1="760" y1="307" x2="735" y2="290"/>
+    <line x1="682" y1="402" x2="645" y2="340"/>
+    <line x1="490" y1="394" x2="535" y2="345"/>
+    <line x1="405" y1="297" x2="520" y2="291"/>
+    <line x1="458" y1="177" x2="530" y2="225"/>
+    <line x1="656" y1="82"  x2="615" y2="195"/>
+    <line x1="508" y1="88"  x2="548" y2="196"/>
+  </g>
+  <!-- Malicious domains — dashed red, stop at outer ring -->
+  <g stroke="#aa1515" stroke-width="0.85" fill="none" opacity="0.50" stroke-dasharray="4,3">
+    <!-- Bar (836,271) → impact (810,290) -->
+    <line x1="872" y1="281" x2="810" y2="290"/>
+    <!-- Bar (766,99) → impact (761,155) -->
+    <line x1="806" y1="109" x2="761" y2="155"/>
+    <!-- Bar (262,295) → impact (391,308) -->
+    <line x1="336" y1="305" x2="391" y2="308"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 6 — Defensive rings   centre (600, 290)
+       r1=80  r2=145  r3=210
+       ════════════════════════════════════════ -->
+  <!-- Outer ring r=210 -->
+  <circle cx="600" cy="290" r="210"
+          fill="none" stroke="#1a40cc" stroke-width="1"
+          opacity="0.40" filter="url(#ringGlow)"/>
+  <!-- Scanning arc outer ring: angle −70° → +20° (clockwise ~90°)
+       start (672, 93)  end (797, 362) -->
+  <path d="M 672,93 A 210,210 0 0,1 797,362"
+        fill="none" stroke="#4488ff" stroke-width="2"
+        opacity="0.80" filter="url(#arcGlow)"/>
+
+  <!-- Mid ring r=145 -->
+  <circle cx="600" cy="290" r="145"
+          fill="none" stroke="#2855ff" stroke-width="1"
+          opacity="0.50" filter="url(#ringGlow)"/>
+  <!-- Small arc mid ring: −90° → −30° (clockwise ~60°)
+       start (600, 145)  end (726, 218) -->
+  <path d="M 600,145 A 145,145 0 0,1 726,218"
+        fill="none" stroke="#4488ff" stroke-width="1.5"
+        opacity="0.65" filter="url(#arcGlow)"/>
+
+  <!-- Inner ring r=80 -->
+  <circle cx="600" cy="290" r="80"
+          fill="none" stroke="#3a6aff" stroke-width="1.2"
+          opacity="0.60" filter="url(#ringGlow)"/>
+
+  <!-- Outer ring tick marks at 12 / 3 / 6 / 9 o'clock -->
+  <g stroke="#2855ff" stroke-width="1.5" stroke-linecap="round" opacity="0.65">
+    <line x1="600" y1="72"  x2="600" y2="90"/>
+    <line x1="600" y1="490" x2="600" y2="508"/>
+    <line x1="382" y1="290" x2="400" y2="290"/>
+    <line x1="800" y1="290" x2="818" y2="290"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 7 — Domain bars
+       ════════════════════════════════════════ -->
+  <!-- Normal (blue) -->
+  <g fill="#0a0f20" stroke="#1840cc" stroke-width="1" opacity="0.68">
+    <rect x="542" y="128" width="72" height="20" rx="3"/>
+    <rect x="677" y="165" width="78" height="20" rx="3"/>
+    <rect x="754" y="295" width="72" height="18" rx="3"/>
+    <rect x="650" y="394" width="68" height="18" rx="3"/>
+    <rect x="456" y="386" width="70" height="18" rx="3"/>
+    <rect x="363" y="285" width="74" height="18" rx="3"/>
+    <rect x="420" y="165" width="74" height="20" rx="3"/>
+    <rect x="626" y="70"  width="62" height="16" rx="3"/>
+    <rect x="478" y="76"  width="62" height="16" rx="3"/>
+  </g>
+  <!-- Tiny lock dots on a few normal bars -->
+  <g fill="#3a88ff" opacity="0.60">
+    <circle cx="562" cy="138" r="2"/>
+    <circle cx="697" cy="175" r="2"/>
+    <circle cx="774" cy="304" r="2"/>
+  </g>
+
+  <!-- Malicious (red) -->
+  <g fill="#180008" stroke="#3a0a1a" stroke-width="1" opacity="0.75">
+    <rect x="836" y="271" width="78" height="20" rx="3"/>
+    <rect x="766" y="99"  width="80" height="20" rx="3"/>
+    <rect x="262" y="295" width="74" height="20" rx="3"/>
+  </g>
+  <g fill="none" stroke="#cc2020" stroke-width="0.9" opacity="0.60">
+    <rect x="836" y="271" width="78" height="20" rx="3"/>
+    <rect x="766" y="99"  width="80" height="20" rx="3"/>
+    <rect x="262" y="295" width="74" height="20" rx="3"/>
+  </g>
+  <!-- Warning dots on malicious bars -->
+  <g fill="#ff3030" filter="url(#impactGlow)">
+    <circle cx="902" cy="281" r="3.5" opacity="0.85"/>
+    <circle cx="834" cy="109" r="3.5" opacity="0.85"/>
+    <circle cx="274" cy="305" r="3.5" opacity="0.85"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 8 — Impact sparks at outer ring boundary
+       (810,290)  (761,155)  (391,308)
+       ════════════════════════════════════════ -->
+  <!-- Impact 1 — right (810, 290) -->
+  <circle cx="810" cy="290" r="18" fill="#cc2020" opacity="0.12" filter="url(#impactBloom)"/>
+  <circle cx="810" cy="290" r="5"  fill="#ff4444" opacity="0.75" filter="url(#impactGlow)"/>
+  <g stroke="#ff5050" stroke-width="1" stroke-linecap="round" opacity="0.75">
+    <line x1="810" y1="290" x2="826" y2="279"/>
+    <line x1="810" y1="290" x2="828" y2="296"/>
+    <line x1="810" y1="290" x2="820" y2="306"/>
+    <line x1="810" y1="290" x2="821" y2="278"/>
+  </g>
+  <!-- Impact 2 — upper-right (761, 155) -->
+  <circle cx="761" cy="155" r="18" fill="#cc2020" opacity="0.12" filter="url(#impactBloom)"/>
+  <circle cx="761" cy="155" r="5"  fill="#ff4444" opacity="0.75" filter="url(#impactGlow)"/>
+  <g stroke="#ff5050" stroke-width="1" stroke-linecap="round" opacity="0.75">
+    <line x1="761" y1="155" x2="776" y2="144"/>
+    <line x1="761" y1="155" x2="778" y2="158"/>
+    <line x1="761" y1="155" x2="770" y2="169"/>
+    <line x1="761" y1="155" x2="775" y2="145"/>
+  </g>
+  <!-- Impact 3 — left (391, 308) -->
+  <circle cx="391" cy="308" r="18" fill="#cc2020" opacity="0.12" filter="url(#impactBloom)"/>
+  <circle cx="391" cy="308" r="5"  fill="#ff4444" opacity="0.75" filter="url(#impactGlow)"/>
+  <g stroke="#ff5050" stroke-width="1" stroke-linecap="round" opacity="0.75">
+    <line x1="391" y1="308" x2="376" y2="297"/>
+    <line x1="391" y1="308" x2="374" y2="314"/>
+    <line x1="391" y1="308" x2="382" y2="323"/>
+    <line x1="391" y1="308" x2="377" y2="299"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 9 — Central Shield
+       M 540,225 L 660,225 L 660,315 Q 660,380 600,398 Q 540,380 540,315 Z
+       ════════════════════════════════════════ -->
+  <!-- Outer bloom behind shield -->
+  <path d="M 540,225 L 660,225 L 660,315 Q 660,380 600,398 Q 540,380 540,315 Z"
+        fill="#1840ff" opacity="0.18" filter="url(#shieldBloom)"/>
+  <!-- Shield fill -->
+  <path d="M 540,225 L 660,225 L 660,315 Q 660,380 600,398 Q 540,380 540,315 Z"
+        fill="url(#shieldFill)"/>
+  <!-- Shield border with glow -->
+  <path d="M 540,225 L 660,225 L 660,315 Q 660,380 600,398 Q 540,380 540,315 Z"
+        fill="none" stroke="url(#shieldStroke)" stroke-width="1.8"
+        filter="url(#shieldGlow)" opacity="0.90"/>
+  <!-- Top highlight edge -->
+  <line x1="540" y1="225" x2="660" y2="225"
+        stroke="#aaddff" stroke-width="1.2" opacity="0.45"/>
+
+  <!-- ── Sentinel Eye emblem (inside shield, at 600, 308) ── -->
+  <ellipse cx="600" cy="308" rx="30" ry="17"
+           fill="none" stroke="#4488ff" stroke-width="1.3"
+           opacity="0.75" filter="url(#eyeGlow)"/>
+  <circle cx="600" cy="308" r="8"  fill="#0c2060" opacity="0.90"/>
+  <circle cx="600" cy="308" r="8"  fill="none" stroke="#3a6aff" stroke-width="0.8" opacity="0.80"/>
+  <circle cx="600" cy="308" r="5"  fill="#1840ff" opacity="0.50" filter="url(#dotGlow)"/>
+  <circle cx="600" cy="308" r="3"  fill="#88ccff" opacity="0.95"/>
+  <line x1="568" y1="308" x2="632" y2="308"
+        stroke="#3a6aff" stroke-width="0.8" opacity="0.35"/>
+  <line x1="600" y1="291" x2="600" y2="282"
+        stroke="#4488ff" stroke-width="0.8" stroke-linecap="round" opacity="0.50"/>
+  <line x1="600" y1="325" x2="600" y2="334"
+        stroke="#4488ff" stroke-width="0.8" stroke-linecap="round" opacity="0.50"/>
+
+  <!-- Crown ticks above eye (authority mark) -->
+  <g stroke="#4488ff" stroke-width="1" stroke-linecap="round" opacity="0.55">
+    <line x1="600" y1="267" x2="600" y2="277"/>
+    <line x1="583" y1="270" x2="586" y2="278"/>
+    <line x1="617" y1="270" x2="614" y2="278"/>
+  </g>
+
+  <!-- Chevron below eye (brand verified) -->
+  <polyline points="582,330 600,342 618,330"
+            fill="none" stroke="#4488ff" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round" opacity="0.60"/>
+
+  <!-- Shield centre pulse dot -->
+  <circle cx="600" cy="290" r="3" fill="#70b0ff" opacity="0.85"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 10 — Ambient particles + data dashes
+       ════════════════════════════════════════ -->
+  <g fill="#1840ff">
+    <circle cx="85"   cy="55"  r="1.5" opacity="0.40"/>
+    <circle cx="190"  cy="40"  r="1"   opacity="0.30"/>
+    <circle cx="330"  cy="70"  r="1.5" opacity="0.35"/>
+    <circle cx="450"  cy="35"  r="1"   opacity="0.25"/>
+    <circle cx="620"  cy="48"  r="1.5" opacity="0.40"/>
+    <circle cx="770"  cy="38"  r="1"   opacity="0.30"/>
+    <circle cx="910"  cy="62"  r="1.5" opacity="0.35"/>
+    <circle cx="1050" cy="45"  r="1"   opacity="0.30"/>
+    <circle cx="1130" cy="58"  r="1.5" opacity="0.40"/>
+    <circle cx="55"   cy="340" r="1"   opacity="0.25"/>
+    <circle cx="140"  cy="310" r="1.5" opacity="0.30"/>
+    <circle cx="1080" cy="320" r="1"   opacity="0.25"/>
+    <circle cx="1160" cy="345" r="1.5" opacity="0.30"/>
+    <circle cx="250"  cy="490" r="1"   opacity="0.20"/>
+    <circle cx="420"  cy="530" r="1.5" opacity="0.25"/>
+    <circle cx="780"  cy="520" r="1"   opacity="0.20"/>
+    <circle cx="950"  cy="500" r="1.5" opacity="0.25"/>
+    <circle cx="100"  cy="165" r="1"   opacity="0.30"/>
+    <circle cx="1100" cy="170" r="1"   opacity="0.30"/>
+    <circle cx="350"  cy="340" r="1"   opacity="0.20"/>
+    <circle cx="860"  cy="330" r="1"   opacity="0.20"/>
+    <circle cx="500"  cy="450" r="1.5" opacity="0.22"/>
+    <circle cx="700"  cy="465" r="1"   opacity="0.20"/>
+    <circle cx="200"  cy="570" r="1"   opacity="0.18"/>
+    <circle cx="1000" cy="565" r="1"   opacity="0.18"/>
+  </g>
+  <!-- Red threat particles near malicious bars -->
+  <g fill="#cc2020">
+    <circle cx="860"  cy="255" r="1"   opacity="0.40"/>
+    <circle cx="888"  cy="302" r="1.5" opacity="0.35"/>
+    <circle cx="810"  cy="88"  r="1"   opacity="0.38"/>
+    <circle cx="762"  cy="72"  r="1.5" opacity="0.32"/>
+    <circle cx="244"  cy="275" r="1"   opacity="0.38"/>
+    <circle cx="258"  cy="322" r="1.5" opacity="0.32"/>
+  </g>
+  <!-- Data stream dashes at top edge -->
+  <g fill="#1535cc" opacity="0.30">
+    <rect x="60"   y="28" width="38" height="2" rx="1"/>
+    <rect x="260"  y="22" width="28" height="2" rx="1"/>
+    <rect x="820"  y="25" width="32" height="2" rx="1"/>
+    <rect x="1100" y="30" width="36" height="2" rx="1"/>
+  </g>
+
+</svg>

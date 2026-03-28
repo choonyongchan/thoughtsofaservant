@@ -14,6 +14,12 @@ They have CI/CD pipelines. They spin up cloud infrastructure on demand. They aut
 
 That realisation changed how I think about cybersecurity. And it led my team to build something small, clever, and — I think — genuinely useful.
 
+---
+
+A note on where this work comes from. During my internship with the Asia-Pacific Digital Risk Protection team at a global cybersecurity company, I had the chance to observe how professional analysts actually hunt threats: the feeds they rely on, the signals they trust, and the exhausting manual workload that accumulates when the tooling can't keep up. CertStream was already on the team's radar. What you're reading is my attempt to understand it properly — to pull it apart, follow it back to its roots in Certificate Transparency, and make a clear case for why every practitioner doing this work should have it in their toolkit. Whatever is useful in this post, I owe to the analysts who showed me what the work actually looks like on the ground.
+
+---
+
 ## The Problem with Playing Defence
 
 The traditional playbook for tackling scam websites goes something like this: a victim reports a suspicious link → an analyst investigates → the domain gets flagged or taken down. Clean. Logical. Thoroughly outdated.
