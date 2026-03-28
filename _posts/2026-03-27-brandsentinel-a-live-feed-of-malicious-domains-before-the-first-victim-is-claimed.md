@@ -106,6 +106,28 @@ BrandSentinel is open source. It is a gift to the cybersecurity community, in th
 
 The threat is automated. The defence should be too.
 
+## What I Took Away
+
+**1. Open-source intelligence is a treasure trove — especially for those who need it most.**
+
+Open-source intelligence will not beat a dedicated proprietary threat intelligence platform on visibility, reliability, or breadth of coverage. The commercial vendors have more sources, better enrichment, and dedicated teams curating signal quality. That is simply the reality.
+
+But here is the counterpoint: for the organisations most exposed to brand-impersonation attacks — small and medium enterprises — a commercial DRP subscription is often out of reach. The same businesses that cannot absorb the cost of a cyberattack are frequently the ones that cannot afford the tooling to prevent one. That asymmetry is where open-source intelligence earns its keep.
+
+The insight BrandSentinel reinforced for me is that the value of OSINT is not in any single source — it is in the fusion. CertStream alone produces noise. URLhaus alone has coverage gaps. PhishTank alone misses the newest campaigns. But a pipeline that ingests all of them, deduplicates across sources, and applies a consistent classification layer produces something genuinely useful: a picture of your brand's threat exposure that would otherwise require a commercial contract to see. For an SME deciding whether to invest in a DRP solution, BrandSentinel running for a week is a more persuasive argument than any sales deck.
+
+**2. Building a real-time, scalable ETL pipeline in Python is harder than it looks — and the right answer is to iterate, not over-engineer.**
+
+I designed BrandSentinel to be event-driven from the start. The first version used Python `async` functions throughout, with Redis Pub/Sub as the message bus between ingestion and classification. For a small proof-of-concept, this is clean and simple — everything lives in one file, the architecture is easy to reason about, and the latency between domain observation and verdict is low.
+
+The problem became obvious under load. Python's threading model means CPU-bound work competes with I/O on a single thread, and the volume of domains BrandSentinel processes is enough to make that a real bottleneck. Worse, several libraries I relied on — DNS resolution in particular — do not expose async interfaces. Every blocking call was a stall. Converting the entire codebase to async is not just tedious; it is a maintenance burden that multiplies with every new heuristic.
+
+My first instinct was to reach for a microservice architecture: split ingestion, classification, and output into separate processes, use a proper message queue, and let each component scale independently. The design is sound on paper. In practice, the overhead of inter-process communication directly conflicts with BrandSentinel's primary goal, which is the speed of scam domain detection. Latency introduced at the architecture level is just as damaging as latency introduced by slow heuristics.
+
+The solution I landed on was Prefect — a workflow orchestration framework that let me run the full pipeline from a single Python file while genuinely parallelising I/O-bound work across tasks. No async contortions. No microservice topology. No operational complexity beyond spinning up the Prefect server. The pipeline became both faster and easier to reason about than either of its predecessors.
+
+The lesson here is not that Prefect is the answer to every pipeline problem. The lesson is to resist the temptation to design for theoretical scale before you understand where the real bottlenecks are — and to search aggressively for existing tools before building your own solutions to solved problems. Iterative solutions are not a sign of weak engineering. They are a sign of engineering focused on the right outcome: in this case, getting a scam domain classified and surfaced to an analyst as fast as possible.
+
 ---
 
 *If you're running BrandSentinel against your own brand, I'd genuinely like to hear what you find. What heuristics are generating the most signal? What sources are you missing? Leave a comment below.*
