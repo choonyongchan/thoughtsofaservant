@@ -8,6 +8,10 @@ cover: /assets/images/covers/certstream-cover.svg
 comments: true
 ---
 
+*This post was proofread with the assistance of AI. The source code backing this story is open-sourced and available on [GitHub](https://github.com/choonyongchan/CertStream).*
+
+---
+
 Here's something that genuinely surprised me: modern scam operations are run like software companies.
 
 They have CI/CD pipelines. They spin up cloud infrastructure on demand. They automate the deployment of thousands of scam websites, run them briefly, then tear them down before anyone can respond. Research by [Group-IB](https://www.group-ib.com/media-center/press-releases/classiscam-2023/) shows that organised scam syndicates have adopted the same DevOps practices your favourite tech companies use — except they're using it to steal from people. Their investigation into *Classiscam*, a scam-as-a-service operation, found 38,000 members organised across Telegram groups with defined roles, using bots to spin up fake phishing pages on demand — a supply chain for fraud that earned an estimated $64.5 million across 251 brands in 79 countries.

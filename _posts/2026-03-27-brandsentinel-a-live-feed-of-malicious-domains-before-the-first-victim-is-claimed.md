@@ -8,6 +8,10 @@ cover: /assets/images/covers/brandsentinel-cover.svg
 comments: true
 ---
 
+*This post was proofread with the assistance of AI. The source code backing this story is open-sourced and available on [GitHub](https://github.com/choonyongchan/BrandSentinel).*
+
+---
+
 When we pointed CertStream at two influential Singapore organisations, it surfaced over ten thousands of suspicious domains in a single day. No human team could triage that volume before the threats became active. So we built a machine to do it — one that classifies domains in real time, flags the dangerous ones before the first victim ever loads the page, and hands analysts a curated shortlist instead of a firehose. This is the story of how that tool came to be, what it took to build it, and what it taught us about defending brands at machine speed.
 
 ---
