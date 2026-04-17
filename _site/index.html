@@ -15,7 +15,7 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="/assets/css/main.css">
 
-  <link type="application/atom+xml" rel="alternate" href="/feed.xml" title="Thoughts of a Servant" />
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Thoughts of a Servant" />
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Home | Thoughts of a Servant</title>
 <meta name="generator" content="Jekyll v3.10.0" />
@@ -24,14 +24,14 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way." />
 <meta property="og:description" content="A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way." />
-<link rel="canonical" href="/" />
-<meta property="og:url" content="/" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
 <meta property="og:site_name" content="Thoughts of a Servant" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Home" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Choonyong Chan"},"description":"A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.","headline":"Home","name":"Thoughts of a Servant","url":"/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Choonyong Chan"},"description":"A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.","headline":"Home","name":"Thoughts of a Servant","url":"http://localhost:4000/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -71,56 +71,51 @@
 
     <div class="post-grid">
         
-        <a href="/projects/hunting-scam-domains-before-they-strike-with-certstream/" class="post-card" style="text-decoration:none;color:inherit;">
-            
-            <div class="post-card__cover"
-                style="background:linear-gradient(135deg,var(--color-sky),var(--color-lavender));"></div>
-            
-            <div class="post-card__body">
-                
-                <span class="post-card__category post-card__category--projects">Projects</span>
-                
-                <h2 class="post-card__title">Hunting Scam Domains Before They Strike with CertStream</h2>
-                <p class="post-card__meta">March 19, 2026</p>
-                <p class="post-card__excerpt">
-                    Scam syndicates now deploy and retire web domains at machine speed. In this post, I share how my research team used CertStream — a real-time Certificate Transparency feed...
-                </p>
-            </div>
-        </a>
         
-        <a href="/projects/exploring-data-science-toy-projects/" class="post-card" style="text-decoration:none;color:inherit;">
-            
-            <div class="post-card__cover"
-                style="background:linear-gradient(135deg,var(--color-sky),var(--color-lavender));"></div>
-            
-            <div class="post-card__body">
-                
-                <span class="post-card__category post-card__category--projects">Projects</span>
-                
-                <h2 class="post-card__title">Exploring Data Science with Toy Projects</h2>
-                <p class="post-card__meta">February 18, 2026</p>
-                <p class="post-card__excerpt">
-                    In this post, I explore a collection of toy projects aimed at learning new techniques in statistics and AI. I share my process, the challenges faced, and the...
-                </p>
-            </div>
-        </a>
+
+<a href="/cybersecurity/brandsentinel-a-live-feed-of-malicious-domains-before-the-first-victim-is-claimed/" class="post-card"
+    data-genre="cybersecurity"
+    data-search="every scam site leaves one trace before it goes live. we built a tool to catch it. this post was proofread with the assistance of ai. the source code backing this story is open-sourced and available on github.
+
+  in a previous post, i showed how certificate transparency logs give us a real-time window into newly registered domains — including scam sites — before they go live. but surfacing suspicious domains is only half the battle. in this post, i introduce brandsentinel: an open-source pipeline that automatically classifies those domains using an ensemble of heuristics, eliminating the majority of manual analyst work and catching threats before the first victim is claimed.">
+    
+    <img class="post-card__cover" src="/assets/images/covers/brandsentinel-cover.svg" alt="Every Scam Site Leaves One Trace Before It Goes Live. We Built a Tool to Catch It.">
+    
+    <div class="post-card__body">
         
-        <a href="/life/best-cafes-for-deep-work/" class="post-card" style="text-decoration:none;color:inherit;">
-            
-            <div class="post-card__cover"
-                style="background:linear-gradient(135deg,var(--color-sky),var(--color-lavender));"></div>
-            
-            <div class="post-card__body">
-                
-                <span class="post-card__category post-card__category--life">Life</span>
-                
-                <h2 class="post-card__title">Best Cafés for Deep Work</h2>
-                <p class="post-card__meta">February 18, 2026</p>
-                <p class="post-card__excerpt">
-                    A curated list of cafés that strike the perfect balance between ambience, coffee quality, and deep-work-friendliness. Whether you're debugging a stubborn issue or reading papers, these spots have...
-                </p>
-            </div>
-        </a>
+        <span class="post-card__category post-card__category--cybersecurity">Cybersecurity</span>
+        
+        <h2 class="post-card__title">Every Scam Site Leaves One Trace Before It Goes Live. We Built a Tool to Catch It.</h2>
+        <p class="post-card__meta">March 27, 2026 · 12 min read</p>
+        <p class="post-card__excerpt">
+            In a previous post, I showed how Certificate Transparency logs give us a real-time window into newly registered domains — including scam sites — before...
+        </p>
+    </div>
+</a>
+
+        
+        
+
+<a href="/cybersecurity/hunting-scam-domains-before-they-strike-with-certstream/" class="post-card"
+    data-genre="cybersecurity"
+    data-search="hunting scam domains before they strike with certstream this post was proofread with the assistance of ai. the source code backing this story is open-sourced and available on github.
+
+  scam syndicates now deploy and retire web domains at machine speed. in this post, i share how my research team used certstream — a real-time certificate transparency feed — to monitor millions of newly registered domains and detect potential scam sites before they claim their first victims.">
+    
+    <img class="post-card__cover" src="/assets/images/covers/certstream-cover.svg" alt="Hunting Scam Domains Before They Strike with CertStream">
+    
+    <div class="post-card__body">
+        
+        <span class="post-card__category post-card__category--cybersecurity">Cybersecurity</span>
+        
+        <h2 class="post-card__title">Hunting Scam Domains Before They Strike with CertStream</h2>
+        <p class="post-card__meta">March 19, 2026 · 7 min read</p>
+        <p class="post-card__excerpt">
+            Scam syndicates now deploy and retire web domains at machine speed. In this post, I share how my research team used CertStream — a real-time...
+        </p>
+    </div>
+</a>
+
         
     </div>
 </div>
@@ -152,92 +147,11 @@
             
         </ul>
         <p>&copy; 2026 Choonyong Chan.</p>
-        <a href="#" class="back-to-top">↑ Back to top</a>
+        <button class="back-to-top">↑ Back to top</button>
     </div>
 </footer>
 
-  <!-- Mobile nav toggle and Scroll effect -->
-  <script>
-    (function () {
-      var header = document.querySelector('.site-header');
-      var toggle = document.querySelector('.nav-toggle');
-      var nav = document.querySelector('.nav-links');
-      var heroScroll = document.querySelector('.hero-scroll');
-      var mainContent = document.getElementById('main-content');
-      var genreFilter = document.getElementById('genre-filter');
-      var postSearch = document.getElementById('post-search');
-
-      // Show header immediately on non-home pages
-      if (header && !document.body.classList.contains('home-page')) {
-        header.classList.add('scrolled');
-      }
-
-      // Scroll effect (only relevant on home page)
-      if (header && document.body.classList.contains('home-page')) {
-        window.addEventListener('scroll', function () {
-          if (window.scrollY > 200) {
-            header.classList.add('scrolled');
-          } else {
-            header.classList.remove('scrolled');
-          }
-        });
-      }
-
-      if (toggle && nav) {
-        toggle.addEventListener('click', function () {
-          nav.classList.toggle('open');
-          toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
-        });
-      }
-
-      // Smooth scroll from hero arrow to main content on home
-      if (heroScroll && mainContent) {
-        heroScroll.addEventListener('click', function (event) {
-          event.preventDefault();
-          mainContent.scrollIntoView({ behavior: 'smooth' });
-        });
-      }
-
-      // Posts page filters & search
-      function applyPostFilters() {
-        var cards = document.querySelectorAll('.post-card');
-        if (!cards.length) return;
-
-        var genreValue = genreFilter ? genreFilter.value : 'all';
-        var query = postSearch ? postSearch.value.trim().toLowerCase() : '';
-        var visibleCount = 0;
-
-        cards.forEach(function (card) {
-          var cardGenre = card.getAttribute('data-genre') || '';
-          var haystack = (card.getAttribute('data-search') || '').toLowerCase();
-
-          var matchesGenre = (genreValue === 'all') || (cardGenre === genreValue);
-          var matchesSearch = !query || haystack.indexOf(query) !== -1;
-
-          if (matchesGenre && matchesSearch) {
-            card.style.display = '';
-            visibleCount += 1;
-          } else {
-            card.style.display = 'none';
-          }
-        });
-
-        var visibleCountEl = document.querySelector('[data-post-visible-count]');
-        if (visibleCountEl) {
-          visibleCountEl.textContent = visibleCount;
-        }
-      }
-
-      if (genreFilter || postSearch) {
-        if (genreFilter) {
-          genreFilter.addEventListener('change', applyPostFilters);
-        }
-        if (postSearch) {
-          postSearch.addEventListener('input', applyPostFilters);
-        }
-      }
-    })();
-  </script>
+  <script src="/assets/js/main.js" defer></script>
 </body>
 
 </html>

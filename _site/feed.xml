@@ -1,8 +1,174 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2026-03-19T07:21:27+00:00</updated><id>/feed.xml</id><title type="html">Thoughts of a Servant</title><subtitle>A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.</subtitle><author><name>Choonyong Chan</name></author><entry><title type="html">Hunting Scam Domains Before They Strike with CertStream</title><link href="/projects/hunting-scam-domains-before-they-strike-with-certstream/" rel="alternate" type="text/html" title="Hunting Scam Domains Before They Strike with CertStream" /><published>2026-03-19T00:00:00+00:00</published><updated>2026-03-19T00:00:00+00:00</updated><id>/projects/hunting-scam-domains-before-they-strike-with-certstream</id><content type="html" xml:base="/projects/hunting-scam-domains-before-they-strike-with-certstream/"><![CDATA[<p>Here’s something that genuinely surprised me: modern scam operations are run like software companies.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.10.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2026-04-17T08:17:58+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Thoughts of a Servant</title><subtitle>A personal blog documenting toy projects in Statistics, Computer Security, Computer Science, and AI — plus life snippets along the way.</subtitle><author><name>Choonyong Chan</name></author><entry><title type="html">Every Scam Site Leaves One Trace Before It Goes Live. We Built a Tool to Catch It.</title><link href="http://localhost:4000/cybersecurity/brandsentinel-a-live-feed-of-malicious-domains-before-the-first-victim-is-claimed/" rel="alternate" type="text/html" title="Every Scam Site Leaves One Trace Before It Goes Live. We Built a Tool to Catch It." /><published>2026-03-27T00:00:00+00:00</published><updated>2026-03-27T00:00:00+00:00</updated><id>http://localhost:4000/cybersecurity/brandsentinel-a-live-feed-of-malicious-domains-before-the-first-victim-is-claimed</id><content type="html" xml:base="http://localhost:4000/cybersecurity/brandsentinel-a-live-feed-of-malicious-domains-before-the-first-victim-is-claimed/"><![CDATA[<p><em>This post was proofread with the assistance of AI. The source code backing this story is open-sourced and available on <a href="https://github.com/choonyongchan/BrandSentinel">GitHub</a>.</em></p>
+
+<hr />
+
+<p>When we pointed CertStream at two influential Singapore organisations, it surfaced over ten thousands of suspicious domains in a single day. No human team could triage that volume before the threats became active. So we built a machine to do it — one that classifies domains in real time, flags the dangerous ones before the first victim ever loads the page, and hands analysts a curated shortlist instead of a firehose. This is the story of how that tool came to be, what it took to build it, and what it taught us about defending brands at machine speed.</p>
+
+<hr />
+
+<p>Before I get into the technical details, I want to take a moment to acknowledge the people who made this work possible.</p>
+
+<p>During my internship, I had the privilege of learning from the Asia-Pacific Digital Risk Protection team at a leading cybersecurity company. They showed me what it really looks like to defend a brand in the wild — the volume, the pace, the judgment calls analysts make under pressure, and the genuine satisfaction of taking down a scam site before it harms someone. This project is built on everything they taught me, and I dedicate it to them.</p>
+
+<hr />
+
+<h2 id="the-problem-we-found-the-domains-now-what">The Problem: We Found the Domains. Now What?</h2>
+
+<p>In <a href="./2026-03-19-hunting-scam-domains-before-they-strike-with-certstream.md">my previous post</a>, I described how Certificate Transparency logs — and specifically CertStream, the real-time WebSocket feed built by Cali Dog Security — give us a powerful early warning system. Every domain that obtains an HTTPS certificate is publicly logged the moment it does, and brand-targeted scam domains are no exception. That means we can see them at the point of certificate issuance, often before the site is even reachable.</p>
+
+<p>The problem we were left with was a different one entirely: <strong>volume</strong>.</p>
+
+<p>CertStream processes millions of certificate events every day. Even after filtering to domains that contain your brand keywords, you’re looking at thousands of candidates per day for a single brand. A human analyst cannot manually investigate each one fast enough for the intelligence to be actionable. By the time they’ve worked through the queue, the scam domains they flagged are either weaponised or gone.</p>
+
+<p>We had solved the sourcing problem. We had created a new one.</p>
+
+<h2 id="the-implication-speed-is-not-a-nice-to-have">The Implication: Speed Is Not a Nice-to-Have</h2>
+
+<p>Let me be direct about the stakes. In threat intelligence, there are two kinds of errors. <strong>False positives</strong> — flagging a benign domain as malicious — waste analyst time and erode trust in the tool. Annoying, but recoverable. <strong>False negatives</strong> — missing a real scam domain — mean a live phishing site with your brand’s logo on it is collecting victims’ credentials, authorising fraudulent transactions, and destroying customer trust, with nobody at your organisation aware it exists.</p>
+
+<p>False negatives are not a metric. They are harm to real people.</p>
+
+<p>The implication is this: an automated classification layer that works around the clock, surfaces threats with high recall, and hands analysts only what truly requires human judgment is not a convenience — it is a prerequisite for any serious DRP operation. That is what we set out to build.</p>
+
+<h2 id="brandsentinel-a-live-feed-of-malicious-domains">BrandSentinel: A Live Feed of Malicious Domains</h2>
+
+<h3 id="methodology">Methodology</h3>
+
+<p>BrandSentinel is an open-source Digital Risk Protection pipeline. It ingests domains from multiple threat intelligence feeds continuously, classifies them using an ensemble of heuristics, and writes verdicts to per-category output files — all while the analyst monitors a live dashboard in Prefect’s UI.</p>
+
+<p><strong>Ingestion.</strong> Ten source workers run as independent async tasks, each polling a different feed on its own schedule:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Source</th>
+      <th>Frequency</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CertStream</td>
+      <td>Live (CT log stream)</td>
+    </tr>
+    <tr>
+      <td>URLhaus</td>
+      <td>Every 5 minutes</td>
+    </tr>
+    <tr>
+      <td>PhishTank</td>
+      <td>Every 1 hour</td>
+    </tr>
+    <tr>
+      <td>OpenPhish</td>
+      <td>Every 12 hours</td>
+    </tr>
+    <tr>
+      <td>CERT Polska, Phishing.Database, Phishing Army, Botvrij.eu, DigitalSide</td>
+      <td>Configurable</td>
+    </tr>
+    <tr>
+      <td>Manual import file</td>
+      <td>Every 30 seconds</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Every domain that any source produces is placed onto a shared, deduplicated <code class="language-plaintext highlighter-rouge">asyncio.Queue</code>. If a domain has been seen before — across any source — it is silently dropped. The pipeline never processes the same domain twice.</p>
+
+<p><strong>Filtering.</strong> A keyword-based filter checks each domain against the brand configurations in <code class="language-plaintext highlighter-rouge">config.yaml</code>. Domains that do not contain a brand keyword are classified as <code class="language-plaintext highlighter-rouge">IRRELEVANT</code> and logged immediately. This is the first gate, and it is intentionally cheap — regex matching costs nothing compared to what comes next.</p>
+
+<p><strong>Classification.</strong> For every domain that passes the filter, BrandSentinel concurrently fetches the HTTP response (following redirects, capturing page content), resolves DNS records, and retrieves the TLS certificate — all in parallel. This enriched context is then passed through a pipeline of 15 heuristics.</p>
+
+<p>The heuristics run lazily. If any single heuristic produces a <em>definitive</em> verdict — such as matching a known brand favicon hash on a non-canonical domain, or detecting a phishing kit directory structure — the pipeline short-circuits and assigns that verdict immediately, without running the remaining checks. For contributing signals, scores are accumulated and normalised. The final verdict is one of four categories:</p>
+
+<ul>
+  <li><strong>SCAM</strong> — High confidence. Investigate and initiate takedown.</li>
+  <li><strong>INCONCLUSIVE</strong> — Suspicious. Requires analyst review.</li>
+  <li><strong>BENIGN</strong> — Passed all checks. Continue monitoring passively.</li>
+  <li><strong>IRRELEVANT</strong> — Not related to the monitored brand. Dropped.</li>
+</ul>
+
+<p>A few heuristics are worth calling out explicitly because they do the heaviest lifting:</p>
+
+<ul>
+  <li><strong>Inactive domain</strong>: An HTTP timeout, connection refusal, or non-200 response is a strong signal — scam domains are frequently pre-registered before they’re weaponised, or already retired.</li>
+  <li><strong>Parking detection</strong>: The page content or DNS fingerprint matches a known domain parking service. These are typically benign, but they are watched — parked domains can be activated at any time.</li>
+  <li><strong>Brand lookalike</strong>: Levenshtein distance between the registered domain and the brand’s canonical domain detects typosquatting and combosquatting that a keyword filter alone would miss.</li>
+  <li><strong>Favicon hash matching</strong>: A SHA-1 hash of the site’s favicon is compared against a curated list of brand favicon hashes. A match on a non-canonical domain is a near-definitive SCAM signal — an attacker has copied the brand’s own visual identity.</li>
+  <li><strong>Forms exfiltration</strong>: Login forms or input fields that submit to a different domain than the one being analysed are a reliable indicator of a credential-harvesting phishing page.</li>
+</ul>
+
+<p><strong>Output.</strong> Verdicts are written continuously to <code class="language-plaintext highlighter-rouge">scam.txt</code>, <code class="language-plaintext highlighter-rouge">inconclusive.txt</code>, <code class="language-plaintext highlighter-rouge">benign.txt</code>, and <code class="language-plaintext highlighter-rouge">irrelevant.txt</code>. The entire pipeline is orchestrated by Prefect, which provides a live UI for observing flow runs, retrying failed tasks, and inspecting per-domain logs without touching the terminal.</p>
+
+<h3 id="results">Results</h3>
+
+<p>The version I am describing here is the current, fully instrumented release. But the insight that validated the approach came from something far simpler.</p>
+
+<p>An early prototype ran only two heuristics: the <strong>inactive domain check</strong> and the <strong>parking detection check</strong>. No lookalike scoring, no favicon hashing, no content analysis — just those two. Even with only CertStream as the data source, the results were striking.</p>
+
+<p>Of every hundred domains flagged by the brand keyword filter, roughly <strong>ninety-five were resolved by those two heuristics alone</strong>. The inactive check cleared out domains that had been registered but not yet deployed — or already retired. The parking check cleared out benign infrastructure that had been registered speculatively by domain investors, not attackers. What remained — the five or so domains that were live, active, and neither parked nor obviously benign — was the set that actually warranted human attention.</p>
+
+<p>In operational terms, this meant a DRP analyst who previously faced a hundred manual lookups per day was reduced to reviewing fewer than ten. The pipeline had not replaced the analyst. It had given them back their day.</p>
+
+<h3 id="discussion">Discussion</h3>
+
+<p>The two-heuristic result is encouraging, but it is not the ceiling — it is the floor. The more sources you ingest from, and the more precisely your heuristics are calibrated, the tighter the classification becomes.</p>
+
+<p>This brings us back to the two-error asymmetry. <strong>False positives</strong> are an inconvenience: the analyst reviews a benign domain and clears it. The cost is time. <strong>False negatives</strong> are a failure: a scam domain is classified as benign or irrelevant and goes unactioned. The cost is victims. BrandSentinel is deliberately calibrated toward recall over precision — when evidence is ambiguous, the verdict is <code class="language-plaintext highlighter-rouge">INCONCLUSIVE</code>, not <code class="language-plaintext highlighter-rouge">BENIGN</code>. The analyst sees it. The domain does not slip through.</p>
+
+<p>As research matures, more can be layered in. New ingestion sources plug in by implementing a single <code class="language-plaintext highlighter-rouge">Source</code> base class. New heuristics extend <code class="language-plaintext highlighter-rouge">HeuristicBase</code> and register themselves; the orchestrator handles the rest. Commercial feeds — URLScan.io, OTX, VirusTotal — can join the source pool without touching the classification logic. An ML-based scoring layer can replace or complement the weighted heuristic sum for teams with labelled datasets. The architecture was designed to absorb these improvements without structural change.</p>
+
+<h2 id="who-should-use-this">Who Should Use This</h2>
+
+<p><strong>Digital Risk Protection teams</strong> are the primary audience. BrandSentinel is not a replacement for experienced analysts — it is the triage layer that lets them work on what matters. Instead of spending their shift manually checking whether <code class="language-plaintext highlighter-rouge">mybank-secure-login.xyz</code> resolves to anything, analysts can focus on the pre-scored shortlist that BrandSentinel surfaces: live domains, with suspicious content, with brand-identical favicons, submitting credentials to a foreign server. That is a very different kind of work.</p>
+
+<p><strong>Small and medium enterprises</strong> are the second audience, and perhaps the more important one. Most SMEs do not have a DRP team. They may not even know how actively their brand is being impersonated online. Running BrandSentinel — even in its simplest configuration, with CertStream and a handful of brand keywords — produces a sobering and actionable picture of digital threat exposure. For an SME trying to decide whether to invest in a commercial DRP solution, that picture is exactly the evidence they need.</p>
+
+<h2 id="what-comes-next">What Comes Next</h2>
+
+<p>BrandSentinel is open source. It is a gift to the cybersecurity community, in the same spirit as the team that first gave me this perspective. If you work in threat intelligence, digital risk, or brand protection, I hope you find it useful — and I hope you make it better. Open an issue, submit a heuristic, add a feed.</p>
+
+<p>The threat is automated. The defence should be too.</p>
+
+<h2 id="what-i-took-away">What I Took Away</h2>
+
+<p><strong>1. Open-source intelligence is a treasure trove — especially for those who need it most.</strong></p>
+
+<p>Open-source intelligence will not beat a dedicated proprietary threat intelligence platform on visibility, reliability, or breadth of coverage. The commercial vendors have more sources, better enrichment, and dedicated teams curating signal quality. That is simply the reality.</p>
+
+<p>But here is the counterpoint: for the organisations most exposed to brand-impersonation attacks — small and medium enterprises — a commercial DRP subscription is often out of reach. The same businesses that cannot absorb the cost of a cyberattack are frequently the ones that cannot afford the tooling to prevent one. That asymmetry is where open-source intelligence earns its keep.</p>
+
+<p>The insight BrandSentinel reinforced for me is that the value of OSINT is not in any single source — it is in the fusion. CertStream alone produces noise. URLhaus alone has coverage gaps. PhishTank alone misses the newest campaigns. But a pipeline that ingests all of them, deduplicates across sources, and applies a consistent classification layer produces something genuinely useful: a picture of your brand’s threat exposure that would otherwise require a commercial contract to see. For an SME deciding whether to invest in a DRP solution, BrandSentinel running for a week is a more persuasive argument than any sales deck.</p>
+
+<p><strong>2. Building a real-time, scalable ETL pipeline in Python is harder than it looks — and the right answer is to iterate, not over-engineer.</strong></p>
+
+<p>I designed BrandSentinel to be event-driven from the start. The first version used Python <code class="language-plaintext highlighter-rouge">async</code> functions throughout, with Redis Pub/Sub as the message bus between ingestion and classification. For a small proof-of-concept, this is clean and simple — everything lives in one file, the architecture is easy to reason about, and the latency between domain observation and verdict is low.</p>
+
+<p>The problem became obvious under load. Python’s threading model means CPU-bound work competes with I/O on a single thread, and the volume of domains BrandSentinel processes is enough to make that a real bottleneck. Worse, several libraries I relied on — DNS resolution in particular — do not expose async interfaces. Every blocking call was a stall. Converting the entire codebase to async is not just tedious; it is a maintenance burden that multiplies with every new heuristic.</p>
+
+<p>My first instinct was to reach for a microservice architecture: split ingestion, classification, and output into separate processes, use a proper message queue, and let each component scale independently. The design is sound on paper. In practice, the overhead of inter-process communication directly conflicts with BrandSentinel’s primary goal, which is the speed of scam domain detection. Latency introduced at the architecture level is just as damaging as latency introduced by slow heuristics.</p>
+
+<p>The solution I landed on was Prefect — a workflow orchestration framework that let me run the full pipeline from a single Python file while genuinely parallelising I/O-bound work across tasks. No async contortions. No microservice topology. No operational complexity beyond spinning up the Prefect server. The pipeline became both faster and easier to reason about than either of its predecessors.</p>
+
+<p>The lesson here is not that Prefect is the answer to every pipeline problem. The lesson is to resist the temptation to design for theoretical scale before you understand where the real bottlenecks are — and to search aggressively for existing tools before building your own solutions to solved problems. Iterative solutions are not a sign of weak engineering. They are a sign of engineering focused on the right outcome: in this case, getting a scam domain classified and surfaced to an analyst as fast as possible.</p>
+
+<hr />
+
+<p><em>If you’re running BrandSentinel against your own brand, I’d genuinely like to hear what you find. What heuristics are generating the most signal? What sources are you missing? Leave a comment below.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Cybersecurity" /><summary type="html"><![CDATA[This post was proofread with the assistance of AI. The source code backing this story is open-sourced and available on GitHub.]]></summary></entry><entry><title type="html">Hunting Scam Domains Before They Strike with CertStream</title><link href="http://localhost:4000/cybersecurity/hunting-scam-domains-before-they-strike-with-certstream/" rel="alternate" type="text/html" title="Hunting Scam Domains Before They Strike with CertStream" /><published>2026-03-19T00:00:00+00:00</published><updated>2026-03-19T00:00:00+00:00</updated><id>http://localhost:4000/cybersecurity/hunting-scam-domains-before-they-strike-with-certstream</id><content type="html" xml:base="http://localhost:4000/cybersecurity/hunting-scam-domains-before-they-strike-with-certstream/"><![CDATA[<p><em>This post was proofread with the assistance of AI. The source code backing this story is open-sourced and available on <a href="https://github.com/choonyongchan/CertStream">GitHub</a>.</em></p>
+
+<hr />
+
+<p>Here’s something that genuinely surprised me: modern scam operations are run like software companies.</p>
 
 <p>They have CI/CD pipelines. They spin up cloud infrastructure on demand. They automate the deployment of thousands of scam websites, run them briefly, then tear them down before anyone can respond. Research by <a href="https://www.group-ib.com/media-center/press-releases/classiscam-2023/">Group-IB</a> shows that organised scam syndicates have adopted the same DevOps practices your favourite tech companies use — except they’re using it to steal from people. Their investigation into <em>Classiscam</em>, a scam-as-a-service operation, found 38,000 members organised across Telegram groups with defined roles, using bots to spin up fake phishing pages on demand — a supply chain for fraud that earned an estimated $64.5 million across 251 brands in 79 countries.</p>
 
 <p>That realisation changed how I think about cybersecurity. And it led my team to build something small, clever, and — I think — genuinely useful.</p>
+
+<hr />
+
+<p>A note on where this work comes from. During my internship with the Asia-Pacific Digital Risk Protection team at a global cybersecurity company, I had the chance to observe how professional analysts actually hunt threats: the feeds they rely on, the signals they trust, and the exhausting manual workload that accumulates when the tooling can’t keep up. CertStream was already on the team’s radar. What you’re reading is my attempt to understand it properly — to pull it apart, follow it back to its roots in Certificate Transparency, and make a clear case for why every practitioner doing this work should have it in their toolkit. Whatever is useful in this post, I owe to the analysts who showed me what the work actually looks like on the ground.</p>
+
+<hr />
 
 <h2 id="the-problem-with-playing-defence">The Problem with Playing Defence</h2>
 
@@ -71,110 +237,4 @@
 
 <hr />
 
-<p><em>What other open data feeds or public infrastructure do you think are sitting underused as threat intelligence sources? I’d love to hear what you’re thinking in the comments.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Projects" /><summary type="html"><![CDATA[Here’s something that genuinely surprised me: modern scam operations are run like software companies.]]></summary></entry><entry><title type="html">Best Cafés for Deep Work</title><link href="/life/best-cafes-for-deep-work/" rel="alternate" type="text/html" title="Best Cafés for Deep Work" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>/life/best-cafes-for-deep-work</id><content type="html" xml:base="/life/best-cafes-for-deep-work/"><![CDATA[<p>Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.</p>
-
-<h2 id="what-makes-a-great-deep-work-café">What Makes a Great Deep-Work Café?</h2>
-
-<p>Not every café is built for productivity. My checklist:</p>
-
-<ol>
-  <li><strong>Reliable Wi-Fi</strong> — Non-negotiable.</li>
-  <li><strong>Power outlets</strong> — Bonus points if they’re near the window seats.</li>
-  <li><strong>Noise level</strong> — A gentle hum, not a concert.</li>
-  <li><strong>Coffee quality</strong> — Life’s too short for bad espresso.</li>
-  <li><strong>Stay-friendly</strong> — No side-eye after the first hour.</li>
-</ol>
-
-<h2 id="my-current-favourites">My Current Favourites</h2>
-
-<h3 id="-the-grind-collective">☕ The Grind Collective</h3>
-
-<p>A minimalist space with long wooden tables, fast Wi-Fi, and an excellent pour-over menu. The baristas know their single-origin beans, and the playlist leans lo-fi hip-hop — which is basically the official soundtrack of focused work.</p>
-
-<p><strong>Best for:</strong> Long afternoon sessions.</p>
-
-<h3 id="-bloom--brew">☕ Bloom &amp; Brew</h3>
-
-<p>Tucked away in a quiet side street, this one surprises you with its airy interior and natural light. They have a “quiet zone” in the back — no phone calls, no group meetings. Just laptops and lattes.</p>
-
-<p><strong>Best for:</strong> Reading papers and writing.</p>
-
-<h3 id="-byte-café">☕ Byte Café</h3>
-
-<p>Yes, the name is on-the-nose, but the space delivers: standing desks, USB charging ports at every table, and a loyalty card that actually pays off. Their matcha latte is dangerously good.</p>
-
-<p><strong>Best for:</strong> Weekend hackathons.</p>
-
-<h2 id="a-few-tips">A Few Tips</h2>
-
-<ul>
-  <li><strong>Go early.</strong> The best seats are taken by 10 AM.</li>
-  <li><strong>Bring headphones.</strong> Even quiet cafés have their moments.</li>
-  <li><strong>Buy something every couple of hours.</strong> It’s only fair — and the pastries are usually worth it.</li>
-</ul>
-
-<hr />
-
-<p><em>Got a favourite deep-work café? Drop it in the comments — I’m always looking for new spots.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Life" /><summary type="html"><![CDATA[Some of my best coding sessions happen outside the house — in a corner booth with a flat white and just enough background murmur to keep me focused. Here are the cafés I keep coming back to.]]></summary></entry><entry><title type="html">Exploring Data Science with Toy Projects</title><link href="/projects/exploring-data-science-toy-projects/" rel="alternate" type="text/html" title="Exploring Data Science with Toy Projects" /><published>2026-02-18T00:00:00+00:00</published><updated>2026-02-18T00:00:00+00:00</updated><id>/projects/exploring-data-science-toy-projects</id><content type="html" xml:base="/projects/exploring-data-science-toy-projects/"><![CDATA[<p>There’s something deeply satisfying about building something small that <em>works</em> — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.</p>
-
-<h2 id="why-toy-projects">Why Toy Projects?</h2>
-
-<p>Large-scale systems are intimidating. Toy projects strip away the noise and let you focus on a single concept:</p>
-
-<ul>
-  <li><strong>Isolation</strong> — You test one idea at a time.</li>
-  <li><strong>Speed</strong> — From idea to working code in an afternoon.</li>
-  <li><strong>Curiosity</strong> — No stakeholders, no deadlines — just learning.</li>
-</ul>
-
-<h2 id="project-1-bayesian-ab-testing-simulator">Project 1: Bayesian A/B Testing Simulator</h2>
-
-<p>I built a small Python simulator that compares two conversion rates using a Beta-Binomial model. The main insight: you can reach <em>practical</em> significance much faster than classical frequentist tests suggest.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
-
-<span class="k">def</span> <span class="nf">bayesian_ab</span><span class="p">(</span><span class="n">alpha_a</span><span class="p">,</span> <span class="n">beta_a</span><span class="p">,</span> <span class="n">alpha_b</span><span class="p">,</span> <span class="n">beta_b</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
-    <span class="s">"""Return P(B &gt; A) using Monte Carlo sampling."""</span>
-    <span class="n">samples_a</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha_a</span><span class="p">,</span> <span class="n">beta_a</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
-    <span class="n">samples_b</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">beta</span><span class="p">(</span><span class="n">alpha_b</span><span class="p">,</span> <span class="n">beta_b</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">samples_b</span> <span class="o">&gt;</span> <span class="n">samples_a</span><span class="p">).</span><span class="n">mean</span><span class="p">()</span>
-
-<span class="c1"># After observing 120/1000 vs 145/1000 conversions
-</span><span class="n">prob</span> <span class="o">=</span> <span class="n">bayesian_ab</span><span class="p">(</span><span class="mi">120</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">880</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">145</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">855</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"P(B &gt; A) = </span><span class="si">{</span><span class="n">prob</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="key-takeaways">Key Takeaways</h3>
-
-<ol>
-  <li>The Bayesian approach naturally handles small sample sizes.</li>
-  <li>Posterior distributions give you a <em>range</em> of plausible values, not just a point estimate.</li>
-  <li>Communicating results as probabilities (“there’s a 94 % chance B is better”) is more intuitive for stakeholders.</li>
-</ol>
-
-<h2 id="project-2-k-means-from-scratch">Project 2: K-Means from Scratch</h2>
-
-<p>Implementing K-Means without <code class="language-plaintext highlighter-rouge">sklearn</code> forced me to understand the convergence criterion at a deeper level. The most surprising lesson: <strong>initialisation matters more than iteration count</strong>.</p>
-
-<h3 id="what-i-learned">What I Learned</h3>
-
-<ul>
-  <li>Random restarts are cheap insurance against poor local optima.</li>
-  <li>The elbow method is useful but subjective — silhouette scores provide a more principled alternative.</li>
-  <li>Visualising cluster assignments at each iteration builds strong geometric intuition.</li>
-</ul>
-
-<h2 id="whats-next">What’s Next?</h2>
-
-<p>I’m planning to explore:</p>
-
-<ul>
-  <li><strong>Dimensionality reduction</strong> — PCA and t-SNE on real-world text embeddings.</li>
-  <li><strong>Anomaly detection</strong> — Isolation forests applied to network traffic logs.</li>
-  <li><strong>Causal inference</strong> — Difference-in-differences on public policy datasets.</li>
-</ul>
-
-<hr />
-
-<p><em>What other applications of AI and statistics do you think can impact security? I’d love to hear your thoughts in the comments below.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Projects" /><summary type="html"><![CDATA[There’s something deeply satisfying about building something small that works — a tiny model that predicts, a script that surfaces a pattern you didn’t expect. That’s the spirit behind these toy projects.]]></summary></entry></feed>
+<p><em>What other open data feeds or public infrastructure do you think are sitting underused as threat intelligence sources? I’d love to hear what you’re thinking in the comments.</em></p>]]></content><author><name>Choonyong Chan</name></author><category term="Cybersecurity" /><summary type="html"><![CDATA[This post was proofread with the assistance of AI. The source code backing this story is open-sourced and available on GitHub.]]></summary></entry></feed>

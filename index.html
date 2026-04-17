@@ -19,24 +19,7 @@ title: Home
 
     <div class="post-grid">
         {% for post in site.posts limit:3 %}
-        <a href="{{ post.url | relative_url }}" class="post-card" style="text-decoration:none;color:inherit;">
-            {% if post.cover %}
-            <img class="post-card__cover" src="{{ post.cover | relative_url }}" alt="{{ post.title }}">
-            {% else %}
-            <div class="post-card__cover"
-                style="background:linear-gradient(135deg,var(--color-sky),var(--color-lavender));"></div>
-            {% endif %}
-            <div class="post-card__body">
-                {% if post.category %}
-                <span class="post-card__category post-card__category--{{ post.category | slugify }}">{{ post.category }}</span>
-                {% endif %}
-                <h2 class="post-card__title">{{ post.title }}</h2>
-                <p class="post-card__meta">{{ post.date | date: "%B %-d, %Y" }}</p>
-                <p class="post-card__excerpt">
-                    {% if post.abstract %}{{ post.abstract | truncatewords: 28 }}{% else %}{{ post.excerpt | strip_html | truncatewords: 28 }}{% endif %}
-                </p>
-            </div>
-        </a>
+        {% include post-card.html post=post %}
         {% endfor %}
     </div>
 </div>
