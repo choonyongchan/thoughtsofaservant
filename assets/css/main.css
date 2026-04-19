@@ -469,6 +469,11 @@ body:not(.home-page) .site-main {
   color: #1a3060;
 }
 
+.post-card__category--opinion {
+  background: #e8e0f0;
+  color: #4a1a6e;
+}
+
 .post-card__title {
   font-family: 'Lora', serif;
   font-size: 1.25rem;
