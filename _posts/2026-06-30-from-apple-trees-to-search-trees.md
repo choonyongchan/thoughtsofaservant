@@ -5,7 +5,8 @@ date: 2026-06-30
 category: Algorithms
 tags: [Algorithms, AI, Classical AI, TicTacToe]
 abstract: "TicTacToe on an n×n board is computationally intractable. Classical AI's answer: convert the game into a search problem, then search intelligently. This post walks through a seven-algorithm progression from naïve MiniMax to Best Node Search; And the heuristic trap that caught me by surprise along the way."
-cover: https://upload.wikimedia.org/wikipedia/commons/4/48/The_Apple_Tree._%2810056%29_%28NBY_417979%29.jpg
+cover: https://upload.wikimedia.org/wikipedia/commons/e/ec/John_Everett_Millais_-_Spring_%28Apple_Blossoms%29.JPG
+math: true
 comments: true
 ---
 
