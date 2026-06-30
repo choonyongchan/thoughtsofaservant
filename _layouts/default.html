@@ -22,7 +22,12 @@
 
   {% if page.math %}
   <script>
-    MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']] } };
+    MathJax = {
+      tex: {
+        inlineMath:  [['$','$'],   ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
   </script>
   <script src="https://unpkg.com/mathjax@3.2.2/es5/tex-chtml.js"
           integrity="sha384-AHAnt9ZhGeHIrydA1Kp1L7FN+2UosbF7RQg6C+9Is/a7kDpQ1684C2iH2VWil6r4"
