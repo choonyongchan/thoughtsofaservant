@@ -11,7 +11,7 @@ highlighter: rouge
 permalink: /:categories/:title/
 
 # Google Analytics — uncomment and add your Measurement ID when ready
-# google_analytics: "G-XXXXXXXXXX"
+google_analytics: "G-9YL884KC1Y"
 
 # Social links
 social:
