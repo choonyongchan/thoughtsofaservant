@@ -6,13 +6,14 @@ category: Algorithms
 cover: /assets/images/covers/casino-childrens-game-cover.jpg
 abstract: "Exact search solves TicTacToe perfectly and then falls over at 5x5. Monte Carlo Tree Search gives up the perfection guarantee and buys back the board. This post builds MCTS from first principles, then benchmarks five variants against an exact solver to find where the honest ceiling actually sits."
 comments: true
+math: true
 ---
 
 *This post was proofread with the assistance of AI.*
 
 ---
 
-MTD(f) was the sharpest algorithm in the last post. On a 4x4 board where you need 4 in a row to win, it spends about 13 seconds choosing a single move.
+MTD(f) was the sharpest algorithm in [the last post](https://choonyongchan.github.io/thoughtsofaservant/algorithms/from-apple-trees-to-search-trees/). On a 4x4 board where you need 4 in a row to win, it spends about 13 seconds choosing a single move.
 
 Thirteen seconds. On sixteen squares. A 6x6 board has thirty-six squares, a 10x10 board has a hundred, and the search tree grows roughly like $b^d$ in all of them. Every algorithm after MiniMax in that post, Alpha-Beta through Best Node Search, searched less of the tree while returning the same answer. They all worked and they all lost anyway, because the tree grows faster than the pruning saves.
 
@@ -74,14 +75,21 @@ Every MCTS iteration runs the same four phases. Each node in the tree stores two
 
 One iteration, drawn as counters:
 
+Before:
+
 ```text
-Before                              After one iteration
-   root  12/20                         root  12/21
-   /          \                        /          \
-A 7/12      B 5/8                   A 7/12      B 5/9
-                                                   \
-                                                 C 0/1   <- new node; its
-                                                            rollout was a loss
+root  12/20
+├── A  7/12
+└── B  5/8
+```
+
+After one iteration:
+
+```text
+root  12/21
+├── A  7/12
+└── B  5/9
+    └── C  0/1   <- new node; its rollout was a loss
 ```
 
 Run that loop a few thousand times and the visit counts concentrate on branches that keep winning. When the budget runs out, play the root child with the most visits. Note what never happened: nobody wrote a function that scores a half-finished board. MCTS needs no intermediate reward heuristic, only the ability to detect a terminal state and say who won. That is why it transferred to Go, where nobody knew how to write a good intermediate evaluation function in the first place.
@@ -101,11 +109,9 @@ A second asymmetry: exact search knows when it is done, because it ran out of tr
 Partway through a run, the visit counts already hint at which children are promising. Acting on that hint is dangerous, because the hint came from random samples that may have got lucky.
 
 ```text
-              root  (11 simulations)
-             /                     \
-        node A                   node B
-   8 wins / 10 visits        1 win / 1 visit
-   win rate  0.80            win rate  1.00
+root  (11 simulations)
+├── A   8 wins / 10 visits   (win rate 0.80)
+└── B   1 win  / 1  visit    (win rate 1.00)
 ```
 
 Node B has a perfect record and a sample size of one. Spending the next simulation on B risks wasting it on a branch that got lucky once; spending it on A risks never discovering B was better all along.
@@ -219,7 +225,7 @@ I implemented five agents against an $n \times n$, $k$-in-a-row engine: pure MCT
 
 ### Simulations buy accuracy, and then stop
 
-![Move accuracy against simulation count for five MCTS variants](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-accuracy-vs-sims.png)
+![Move accuracy against simulation count for five MCTS variants]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-accuracy-vs-sims.png)
 
 Every agent improves with more simulations, which is expected. The interesting part is where each stops improving. UCT and the heuristic variant reach 0.97 accuracy by 100 to 200 simulations and then flatten. PUCT crawls to 0.93 by 2000. RAVE and pure MCTS are still climbing at 2000 without plateauing.
 
@@ -227,7 +233,7 @@ Nobody reaches 1.0. On a 3x3 board that exact search solves in milliseconds, the
 
 RAVE underperforming here is its own assumption failing. A 3x3 game lasts at most nine moves, every one tightly coupled to the others, so the AMAF premise that a move's value ignores its context is close to maximally wrong on the smallest possible board.
 
-![Simulations needed to first reach 90% move accuracy](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-sims-to-90.png)
+![Simulations needed to first reach 90% move accuracy]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-sims-to-90.png)
 
 Ranked by sample efficiency, plain UCT and the heuristic variant need 50 simulations to cross 90%. PUCT needs 1000, RAVE needs 2000, and pure MCTS never gets there.
 
@@ -262,7 +268,7 @@ Statisticians have a name for the trap I fell into. Add another explanatory vari
 
 Since MTD(f) is infeasible past $n \approx 5$, measuring scale needs two other references: self-play under a 90-second-per-move budget, to find where MCTS stops running at all, and a fixed-budget agent against a 10x-budget copy of itself, to find where its move quality stops holding up.
 
-![Largest board size each variant completes within the time budget](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-scaling-ceiling.png)
+![Largest board size each variant completes within the time budget]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-scaling-ceiling.png)
 
 At 1600 simulations per move the honest ceiling is $n \approx 12$ to $16$. RAVE stretches furthest, to 16x16. The heuristic agent cannot complete a single move on a 6x6 board. A 100x100 board is unreachable for every variant.
 
