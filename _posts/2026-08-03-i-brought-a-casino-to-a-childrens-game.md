@@ -215,7 +215,7 @@ Moves the network likes get explored first; moves it dislikes get explored later
 This is the architecture DeepMind adapted for AlphaGo, which beat Lee Sedol, a 9-dan professional, 4 games to 1 in March 2016.
 
 ![Game 4 of the AlphaGo versus Lee Sedol match](https://upload.wikimedia.org/wikipedia/commons/f/f5/Lee_Sedol_%28W%29_vs_AlphaGo_%28B%29_-_Game_4.svg)
-*Game 4, the one AlphaGo lost. Lee Sedol's move 78, the "wedge", was one AlphaGo's policy network rated at roughly 1 in 10,000, so the search barely looked at it and played poorly for the rest of the game. Diagram [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons.*
+*Game 4, the one AlphaGo lost. Lee Sedol's move 78, the "wedge", was one AlphaGo's policy network rated at roughly 1 in 10,000, so the search barely looked at it and played poorly for the rest of the game.*
 
 The game AlphaGo lost is the more instructive one. A learned prior is a very good guess about where to look, and a very good guess is still a guess. How that prior gets trained, and what AlphaZero changed by discarding human games entirely, is the next post.
 
