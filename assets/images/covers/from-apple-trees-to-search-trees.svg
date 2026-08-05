@@ -1,0 +1,299 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+
+    <!-- ── Backgrounds ── -->
+    <radialGradient id="bgBloom" cx="72%" cy="45%" r="50%">
+      <stop offset="0%"   stop-color="#0a1840" stop-opacity="0.55"/>
+      <stop offset="55%"  stop-color="#040a28" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#060b18" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="redAccent" cx="30%" cy="50%" r="40%">
+      <stop offset="0%"   stop-color="#aa1820" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#aa1820" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Node glow filters -->
+    <filter id="nodeGlow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="pruneGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="textShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#000" flood-opacity="0.7"/>
+    </filter>
+
+    <!-- Pillar gradient -->
+    <linearGradient id="pillarGrad" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#1030cc" stop-opacity="0"/>
+      <stop offset="25%"  stop-color="#2860ff" stop-opacity="0.6"/>
+      <stop offset="50%"  stop-color="#4488ff" stop-opacity="0.9"/>
+      <stop offset="75%"  stop-color="#2860ff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#1030cc" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="pillarGlow" x="-400%" y="0%" width="900%" height="100%">
+      <feGaussianBlur stdDeviation="16" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="pillarOuterGlow" x="-800%" y="0%" width="1700%" height="100%">
+      <feGaussianBlur stdDeviation="32"/>
+    </filter>
+
+  </defs>
+
+  <!-- ════════════════════════════════════════
+       LAYER 1 — Background
+       ════════════════════════════════════════ -->
+  <rect width="1200" height="630" fill="#060b18"/>
+  <rect width="1200" height="630" fill="url(#bgBloom)"/>
+  <rect width="1200" height="630" fill="url(#redAccent)"/>
+
+  <!-- Left neon pillar — outer bloom -->
+  <rect x="0" y="0" width="12" height="630" fill="url(#pillarGrad)" filter="url(#pillarOuterGlow)" opacity="0.5"/>
+  <!-- Left neon pillar — core -->
+  <rect x="4" y="0" width="5" height="630" fill="url(#pillarGrad)" filter="url(#pillarGlow)" opacity="0.85"/>
+
+  <!-- Right neon pillar — outer bloom -->
+  <rect x="1188" y="0" width="12" height="630" fill="url(#pillarGrad)" filter="url(#pillarOuterGlow)" opacity="0.5"/>
+  <!-- Right neon pillar — core -->
+  <rect x="1191" y="0" width="5" height="630" fill="url(#pillarGrad)" filter="url(#pillarGlow)" opacity="0.85"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 2 — TicTacToe grid (faint, background)
+       Centred around (920, 310), cell size 55
+       ════════════════════════════════════════ -->
+  <g stroke="#1535aa" stroke-width="1" fill="none" opacity="0.12">
+    <!-- Verticals -->
+    <line x1="975" y1="172" x2="975" y2="447"/>
+    <line x1="920" y1="172" x2="920" y2="447"/><!-- centre col -->
+    <line x1="865" y1="172" x2="865" y2="447"/>
+    <!-- Horizontals -->
+    <line x1="810" y1="227" x2="1030" y2="227"/>
+    <line x1="810" y1="310" x2="1030" y2="310"/><!-- centre row -->
+    <line x1="810" y1="392" x2="1030" y2="392"/>
+  </g>
+  <!-- Faint X marks inside grid cells -->
+  <g stroke="#2255aa" stroke-width="1.2" stroke-linecap="round" opacity="0.1">
+    <!-- top-left cell X -->
+    <line x1="832" y1="190" x2="858" y2="216"/>
+    <line x1="858" y1="190" x2="832" y2="216"/>
+    <!-- centre cell X -->
+    <line x1="897" y1="272" x2="942" y2="296"/>
+    <line x1="942" y1="272" x2="897" y2="296"/>
+    <!-- bottom-right cell X -->
+    <line x1="995" y1="354" x2="1020" y2="380"/>
+    <line x1="1020" y1="354" x2="995" y2="380"/>
+  </g>
+  <!-- Faint O circles in grid -->
+  <g stroke="#2255aa" stroke-width="1.2" fill="none" opacity="0.09">
+    <circle cx="942" cy="203" r="18"/>
+    <circle cx="887" cy="340" r="18"/>
+    <circle cx="998" cy="258" r="15"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 3 — MiniMax game tree
+       Root MAX at (820, 90)
+       Level-1 MIN: (660,195) (820,195) (980,195)
+       Level-2 MAX: (600,300) (720,300) (780,300) (860,300) (920,300) (1040,300)
+       Level-3 leaves: row at y=400
+       ════════════════════════════════════════ -->
+
+  <!-- Tree edges — normal branches -->
+  <g stroke="#1a3a70" stroke-width="1.4" fill="none" opacity="0.75">
+    <!-- Root to L1 -->
+    <line x1="820" y1="110" x2="660" y2="182"/>
+    <line x1="820" y1="110" x2="820" y2="182"/>
+    <line x1="820" y1="110" x2="980" y2="182"/>
+    <!-- L1 left (660) to L2 -->
+    <line x1="660" y1="213" x2="600" y2="285"/>
+    <line x1="660" y1="213" x2="720" y2="285"/>
+    <!-- L1 centre (820) to L2 -->
+    <line x1="820" y1="213" x2="780" y2="285"/>
+    <line x1="820" y1="213" x2="860" y2="285"/>
+    <!-- L2 (600) to leaves -->
+    <line x1="600" y1="316" x2="570" y2="385"/>
+    <line x1="600" y1="316" x2="625" y2="385"/>
+    <!-- L2 (720) to leaves -->
+    <line x1="720" y1="316" x2="700" y2="385"/>
+    <line x1="720" y1="316" x2="742" y2="385"/>
+    <!-- L2 (780) to leaves -->
+    <line x1="780" y1="316" x2="762" y2="385"/>
+    <line x1="780" y1="316" x2="800" y2="385"/>
+    <!-- L2 (860) to leaves -->
+    <line x1="860" y1="316" x2="840" y2="385"/>
+    <line x1="860" y1="316" x2="878" y2="385"/>
+  </g>
+
+  <!-- Pruned edges — right branch from L1 (980), faded red -->
+  <g stroke="#8a1520" stroke-width="1.2" fill="none" opacity="0.45" stroke-dasharray="5,3">
+    <line x1="980" y1="213" x2="920" y2="285"/>
+    <line x1="980" y1="213" x2="1040" y2="285"/>
+    <line x1="920"  y1="316" x2="900" y2="385"/>
+    <line x1="920"  y1="316" x2="940" y2="385"/>
+    <line x1="1040" y1="316" x2="1020" y2="385"/>
+    <line x1="1040" y1="316" x2="1062" y2="385"/>
+  </g>
+
+  <!-- Pruning cut marks (α-β) -->
+  <g stroke="#cc2030" stroke-width="2" stroke-linecap="round" filter="url(#pruneGlow)" opacity="0.8">
+    <!-- cut on L1→L2 right branch -->
+    <line x1="965" y1="245" x2="978" y2="258"/>
+    <line x1="978" y1="245" x2="965" y2="258"/>
+    <!-- cut on L2→leaves (920) -->
+    <line x1="907" y1="347" x2="918" y2="358"/>
+    <line x1="918" y1="347" x2="907" y2="358"/>
+    <!-- cut on L2→leaves (1040) -->
+    <line x1="1028" y1="347" x2="1040" y2="358"/>
+    <line x1="1040" y1="347" x2="1028" y2="358"/>
+  </g>
+
+  <!-- ── Level-0: root MAX node (square) ── -->
+  <rect x="802" y="88" width="36" height="36" rx="4"
+        fill="#070e24" stroke="#2a60ee" stroke-width="1.8"
+        filter="url(#nodeGlow)" opacity="0.95"/>
+  <text x="820" y="111" text-anchor="middle"
+        fill="#5090ff" font-family="monospace" font-size="11" font-weight="600" opacity="0.9">MAX</text>
+
+  <!-- ── Level-1: MIN nodes (circles) ── -->
+  <!-- Normal: 660, 820 -->
+  <circle cx="660" cy="197" r="19" fill="#070e24" stroke="#2a60ee" stroke-width="1.6"
+          filter="url(#nodeGlow)" opacity="0.92"/>
+  <text x="660" y="201" text-anchor="middle"
+        fill="#5090ff" font-family="monospace" font-size="10" opacity="0.85">MIN</text>
+  <circle cx="820" cy="197" r="19" fill="#070e24" stroke="#2a60ee" stroke-width="1.6"
+          filter="url(#nodeGlow)" opacity="0.92"/>
+  <text x="820" y="201" text-anchor="middle"
+        fill="#5090ff" font-family="monospace" font-size="10" opacity="0.85">MIN</text>
+  <!-- Pruned: 980 -->
+  <circle cx="980" cy="197" r="19" fill="#100408" stroke="#882030" stroke-width="1.4"
+          opacity="0.60"/>
+  <text x="980" y="201" text-anchor="middle"
+        fill="#882030" font-family="monospace" font-size="10" opacity="0.7">MIN</text>
+
+  <!-- ── Level-2: MAX nodes (squares) — normal ── -->
+  <g fill="#070e24" stroke="#2050cc" stroke-width="1.3" opacity="0.85">
+    <rect x="583" y="285" width="34" height="34" rx="3"/>
+    <rect x="703" y="285" width="34" height="34" rx="3"/>
+    <rect x="763" y="285" width="34" height="34" rx="3"/>
+    <rect x="843" y="285" width="34" height="34" rx="3"/>
+  </g>
+  <!-- Level-2: MAX nodes — pruned (faint red) -->
+  <g fill="#0e0408" stroke="#701828" stroke-width="1.1" opacity="0.45">
+    <rect x="903" y="285" width="34" height="34" rx="3"/>
+    <rect x="1023" y="285" width="34" height="34" rx="3"/>
+  </g>
+
+  <!-- ── Level-3: terminal leaves (small circles) ── -->
+  <g fill="#060c20" stroke="#183880" stroke-width="1" opacity="0.8">
+    <circle cx="570" cy="397" r="12"/>
+    <circle cx="625" cy="397" r="12"/>
+    <circle cx="700" cy="397" r="12"/>
+    <circle cx="742" cy="397" r="12"/>
+    <circle cx="762" cy="397" r="12"/>
+    <circle cx="800" cy="397" r="12"/>
+    <circle cx="840" cy="397" r="12"/>
+    <circle cx="878" cy="397" r="12"/>
+  </g>
+  <!-- Terminal values -->
+  <g fill="#2a5090" font-family="monospace" font-size="9" text-anchor="middle" opacity="0.7">
+    <text x="570" y="401">+1</text>
+    <text x="625" y="401">0</text>
+    <text x="700" y="401">-1</text>
+    <text x="742" y="401">+1</text>
+    <text x="762" y="401">0</text>
+    <text x="800" y="401">+1</text>
+    <text x="840" y="401">-1</text>
+    <text x="878" y="401">0</text>
+  </g>
+  <!-- Pruned leaves — faded -->
+  <g fill="#0a0408" stroke="#551020" stroke-width="1" opacity="0.35">
+    <circle cx="900" cy="397" r="12"/>
+    <circle cx="940" cy="397" r="12"/>
+    <circle cx="1020" cy="397" r="12"/>
+    <circle cx="1062" cy="397" r="12"/>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 4 — Left accent bar
+       ════════════════════════════════════════ -->
+  <rect x="30" y="50" width="5" height="370" fill="#cc2030"/>
+
+  <!-- ════════════════════════════════════════
+       LAYER 5 — Text content
+       ════════════════════════════════════════ -->
+
+  <!-- Category pill -->
+  <rect x="48" y="50" width="148" height="30" rx="15" fill="#cc2030"/>
+  <text x="122" y="70" text-anchor="middle"
+        fill="white" font-family="Arial, Helvetica, sans-serif" font-size="12"
+        font-weight="700" letter-spacing="2">ALGORITHMS</text>
+
+  <!-- Main title — line 1 -->
+  <text x="48" y="170"
+        fill="white" font-family="Arial Black, Impact, sans-serif"
+        font-size="56" font-weight="900" letter-spacing="-1"
+        filter="url(#textShadow)">From Apple Trees</text>
+
+  <!-- Main title — line 2 -->
+  <text x="48" y="242"
+        fill="white" font-family="Arial Black, Impact, sans-serif"
+        font-size="56" font-weight="900" letter-spacing="-1"
+        filter="url(#textShadow)">to Search Trees</text>
+
+  <!-- Red rule under title -->
+  <rect x="48" y="258" width="440" height="4" fill="#cc2030"/>
+
+  <!-- Subtitle -->
+  <text x="48" y="300"
+        fill="#7a9ab8" font-family="Arial, Helvetica, sans-serif" font-size="17">
+    Seven algorithms — each a sharper answer to
+  </text>
+  <text x="48" y="324"
+        fill="#7a9ab8" font-family="Arial, Helvetica, sans-serif" font-size="17">
+    the same question: how to play a perfect game.
+  </text>
+
+  <!-- Algorithm progression pills (decorative) -->
+  <g font-family="monospace" font-size="11" text-anchor="middle">
+    <rect x="48"  y="358" width="72" height="20" rx="10" fill="#0a1830" stroke="#1840aa" stroke-width="1" opacity="0.8"/>
+    <text x="84"  y="372" fill="#4488ff" opacity="0.7">MiniMax</text>
+
+    <rect x="132" y="358" width="84" height="20" rx="10" fill="#0a1830" stroke="#1840aa" stroke-width="1" opacity="0.8"/>
+    <text x="174" y="372" fill="#4488ff" opacity="0.7">Alpha-Beta</text>
+
+    <rect x="228" y="358" width="72" height="20" rx="10" fill="#0a1830" stroke="#1840aa" stroke-width="1" opacity="0.8"/>
+    <text x="264" y="372" fill="#4488ff" opacity="0.7">NegaMax</text>
+
+    <rect x="312" y="358" width="80" height="20" rx="10" fill="#0a1830" stroke="#1840aa" stroke-width="1" opacity="0.8"/>
+    <text x="352" y="372" fill="#4488ff" opacity="0.7">NegaScout</text>
+
+    <rect x="48"  y="386" width="52" height="20" rx="10" fill="#0d0818" stroke="#881830" stroke-width="1" opacity="0.8"/>
+    <text x="74"  y="400" fill="#cc3040" opacity="0.8">MTD(f)</text>
+
+    <rect x="112" y="386" width="34" height="20" rx="10" fill="#0d0818" stroke="#881830" stroke-width="1" opacity="0.8"/>
+    <text x="129" y="400" fill="#cc3040" opacity="0.8">BNS</text>
+
+    <rect x="158" y="386" width="128" height="20" rx="10" fill="#0d0818" stroke="#881830" stroke-width="1" opacity="0.8"/>
+    <text x="222" y="400" fill="#cc3040" opacity="0.8">Iterative Deepening</text>
+  </g>
+
+  <!-- ════════════════════════════════════════
+       LAYER 6 — Bottom author bar
+       ════════════════════════════════════════ -->
+  <rect x="0" y="580" width="1200" height="50" fill="#060c1a"/>
+  <rect x="0" y="580" width="1200" height="2" fill="#cc2030"/>
+
+  <text x="40" y="612"
+        fill="#c0d0e0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="600">Choon Yong</text>
+  <text x="155" y="612"
+        fill="#3a5060" font-family="Arial, Helvetica, sans-serif" font-size="14">·</text>
+  <text x="172" y="612"
+        fill="#4a6070" font-family="Arial, Helvetica, sans-serif" font-size="14">June 30, 2026</text>
+
+  <text x="1160" y="612" text-anchor="end"
+        fill="#2a3848" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="1">Thoughts of a Servant</text>
+
+</svg>
