@@ -45,7 +45,7 @@ Given a fixed budget, how do you strategically search a tree you have not explor
 
 ## What Monte Carlo Actually Means
 
-![The Monte Carlo Casino in Monaco](https://upload.wikimedia.org/wikipedia/commons/8/8c/Monte_Carlo_Casino.jpg)
+![The Monte Carlo Casino in Monaco]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/monte-carlo-casino.jpg)
 
 *The Monte Carlo Casino in Monaco, which lent its name to the method.*
 
@@ -59,7 +59,7 @@ Monte Carlo Tree Search (MCTS) is what happens when you wrap that statistic in a
 
 ## The Four Phases
 
-![The four phases of Monte Carlo Tree Search: selection, expansion, simulation, backpropagation](https://upload.wikimedia.org/wikipedia/commons/6/62/MCTS_%28English%29_-_Updated_2017-11-19.svg)
+![The four phases of Monte Carlo Tree Search: selection, expansion, simulation, backpropagation]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-four-phases.svg)
 
 *One iteration of MCTS.*
 
@@ -165,7 +165,7 @@ Heavy playouts cost real time per simulation, and as the previous post's scaled-
 
 ## RAVE: Assuming Moves Are Independent
 
-![The RAVE heuristic illustrated on a TicTacToe position](https://upload.wikimedia.org/wikipedia/commons/e/e8/Tic-tac-toe-RAVE-English.svg)
+![The RAVE heuristic illustrated on a TicTacToe position]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rave-heuristic.svg)
 
 *The RAVE heuristic in MCTS*
 
@@ -201,7 +201,7 @@ Past $C_{\text{rave}}$ visits, AMAF is ignored entirely. (Better weightings exis
 
 ## PUCT: Replacing the Heuristic With a Network
 
-![Rosenblatt's perceptron](https://upload.wikimedia.org/wikipedia/commons/f/ff/Rosenblattperceptron.png)
+![Rosenblatt's perceptron]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rosenblatt-perceptron.png)
 *Rosenblatt's perceptron: inputs, weights, one output.*
 
 AMAF is, structurally, a very small learned model: action in, value out, one layer, trained by counting. Seen that way the upgrade path is obvious. Widen the input from a bare action to the whole board state, stack layers between input and output, and train the weights by gradient descent instead of counting. The network now answers a richer question: given this position and this candidate move, how good is it?
@@ -214,7 +214,7 @@ Moves the network likes get explored first; moves it dislikes get explored later
 
 This is the architecture DeepMind adapted for AlphaGo, which beat Lee Sedol, a 9-dan professional, 4 games to 1 in March 2016.
 
-![Game 4 of the AlphaGo versus Lee Sedol match](https://upload.wikimedia.org/wikipedia/commons/f/f5/Lee_Sedol_%28W%29_vs_AlphaGo_%28B%29_-_Game_4.svg)
+![Game 4 of the AlphaGo versus Lee Sedol match]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/alphago-lee-sedol-game4.svg)
 *Game 4, the one AlphaGo lost. Lee Sedol's move 78, the "wedge", was one AlphaGo's policy network rated at roughly 1 in 10,000, so the search barely looked at it and played poorly for the rest of the game.*
 
 The game AlphaGo lost is the more instructive one. A learned prior is a very good guess about where to look, and a very good guess is still a guess. How that prior gets trained, and what AlphaZero changed by discarding human games entirely, is the next post.
