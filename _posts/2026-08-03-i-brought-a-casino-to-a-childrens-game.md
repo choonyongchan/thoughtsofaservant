@@ -1,4 +1,4 @@
----
+﻿---
 title: "I Brought a Casino to a Children's Game"
 subtitle: "How random guessing beats perfect search when the board gets too big"
 date: 2026-08-03
@@ -45,7 +45,7 @@ Given a fixed budget, how do you strategically search a tree you have not explor
 
 ## What Monte Carlo Actually Means
 
-![The Monte Carlo Casino in Monaco](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/monte-carlo-casino.jpg)
+![The Monte Carlo Casino in Monaco](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/monte-carlo-casino.jpg)
 
 *The Monte Carlo Casino in Monaco, which lent its name to the method.*
 
@@ -59,7 +59,7 @@ Monte Carlo Tree Search (MCTS) is what happens when you wrap that statistic in a
 
 ## The Four Phases
 
-![The four phases of Monte Carlo Tree Search: selection, expansion, simulation, backpropagation](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-four-phases.svg)
+![The four phases of Monte Carlo Tree Search: selection, expansion, simulation, backpropagation](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-four-phases.svg)
 
 *One iteration of MCTS.*
 
@@ -79,17 +79,17 @@ Before:
 
 ```text
 root  12/20
-├── A  7/12
-└── B  5/8
+â”œâ”€â”€ A  7/12
+â””â”€â”€ B  5/8
 ```
 
 After one iteration:
 
 ```text
 root  12/21
-├── A  7/12
-└── B  5/9
-    └── C  0/1   <- new node; its rollout was a loss
+â”œâ”€â”€ A  7/12
+â””â”€â”€ B  5/9
+    â””â”€â”€ C  0/1   <- new node; its rollout was a loss
 ```
 
 Run that loop a few thousand times and the visit counts concentrate on branches that keep winning. When the budget runs out, play the root child with the most visits. Note what never happened: nobody wrote a function that scores a half-finished board. MCTS needs no intermediate reward heuristic, only the ability to detect a terminal state and say who won. That is why it transferred to Go, where nobody knew how to write a good intermediate evaluation function in the first place.
@@ -110,8 +110,8 @@ Partway through a run, the visit counts already hint at which children are promi
 
 ```text
 root  (11 simulations)
-├── A   8 wins / 10 visits   (win rate 0.80)
-└── B   1 win  / 1  visit    (win rate 1.00)
+â”œâ”€â”€ A   8 wins / 10 visits   (win rate 0.80)
+â””â”€â”€ B   1 win  / 1  visit    (win rate 1.00)
 ```
 
 Node B has a perfect record and a sample size of one. Spending the next simulation on B risks wasting it on a branch that got lucky once; spending it on A risks never discovering B was better all along.
@@ -125,7 +125,7 @@ Clinical trials, A/B tests, ad auctions, and restaurant choice are all versions 
 
 ## Upper Confidence Bounds for Trees
 
-UCT is the standard answer, introduced by Levente Kocsis and Csaba Szepesvári in 2006. It replaces "pick a child at random" with "pick the child with the highest score", and builds that score from the two competing pressures directly.
+UCT is the standard answer, introduced by Levente Kocsis and Csaba SzepesvÃ¡ri in 2006. It replaces "pick a child at random" with "pick the child with the highest score", and builds that score from the two competing pressures directly.
 
 Start with exploitation. For child $i$ with $w_i$ wins over $n_i$ visits, the empirical win rate is
 
@@ -145,7 +145,7 @@ Selection takes the $\arg\max$ of this score. It is not a probability, and readi
 
 The constant $c$ sets the trade rate. The theoretical value for rewards in $[0,1]$ is $\sqrt{2}$, and in practice it gets tuned empirically per domain.
 
-The behaviour that falls out is what we wanted. Early on $n_i$ is small everywhere, the exploration term dominates, and UCT spreads its attention widely. As visits accumulate that term shrinks while the win rate stays put, so exploitation gradually takes over. Kocsis and Szepesvári proved the probability of selecting a suboptimal action at the root converges to zero, so UCT's evaluations converge to MiniMax's given unbounded time. The averaging operator becomes the max operator, slowly, for free.
+The behaviour that falls out is what we wanted. Early on $n_i$ is small everywhere, the exploration term dominates, and UCT spreads its attention widely. As visits accumulate that term shrinks while the win rate stays put, so exploitation gradually takes over. Kocsis and SzepesvÃ¡ri proved the probability of selecting a suboptimal action at the root converges to zero, so UCT's evaluations converge to MiniMax's given unbounded time. The averaging operator becomes the max operator, slowly, for free.
 
 ## Heavy Playouts: Teaching the Rollout to Play
 
@@ -165,7 +165,7 @@ Heavy playouts cost real time per simulation, and as the previous post's scaled-
 
 ## RAVE: Assuming Moves Are Independent
 
-![The RAVE heuristic illustrated on a TicTacToe position](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rave.svg.webp)
+![The RAVE heuristic illustrated on a TicTacToe position](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rave.svg.webp)
 
 *The RAVE heuristic in MCTS*
 
@@ -201,7 +201,7 @@ Past $C_{\text{rave}}$ visits, AMAF is ignored entirely. (Better weightings exis
 
 ## PUCT: Replacing the Heuristic With a Network
 
-![Rosenblatt's perceptron](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rosenblatt-perceptron.png)
+![Rosenblatt's perceptron](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rosenblatt-perceptron.png)
 *Rosenblatt's perceptron: inputs, weights, one output.*
 
 AMAF is, structurally, a very small learned model: action in, value out, one layer, trained by counting. Seen that way the upgrade path is obvious. Widen the input from a bare action to the whole board state, stack layers between input and output, and train the weights by gradient descent instead of counting. The network now answers a richer question: given this position and this candidate move, how good is it?
@@ -214,7 +214,7 @@ Moves the network likes get explored first; moves it dislikes get explored later
 
 This is the architecture DeepMind adapted for AlphaGo, which beat Lee Sedol, a 9-dan professional, 4 games to 1 in March 2016.
 
-![Game 4 of the AlphaGo versus Lee Sedol match](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/alphago-lee-sedol-game4.svg)
+![Game 4 of the AlphaGo versus Lee Sedol match](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/alphago-lee-sedol-game4.svg)
 *Game 4, the one AlphaGo lost. Lee Sedol's move 78, the "wedge", was one AlphaGo's policy network rated at roughly 1 in 10,000, so the search barely looked at it and played poorly for the rest of the game.*
 
 The game AlphaGo lost is the more instructive one. A learned prior is a very good guess about where to look, and a very good guess is still a guess. How that prior gets trained, and what AlphaZero changed by discarding human games entirely, is the next post.
@@ -225,7 +225,7 @@ I implemented five agents against an $n \times n$, $k$-in-a-row engine: pure MCT
 
 ### Simulations buy accuracy, and then stop
 
-![Move accuracy against simulation count for five MCTS variants](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-accuracy-vs-sims.png)
+![Move accuracy against simulation count for five MCTS variants](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-accuracy-vs-sims.png)
 
 Every agent improves with more simulations, which is expected. The interesting part is where each stops improving. UCT and the heuristic variant reach 0.97 accuracy by 100 to 200 simulations and then flatten. PUCT crawls to 0.93 by 2000. RAVE and pure MCTS are still climbing at 2000 without plateauing.
 
@@ -233,7 +233,7 @@ Nobody reaches 1.0. On a 3x3 board that exact search solves in milliseconds, the
 
 RAVE underperforming here is its own assumption failing. A 3x3 game lasts at most nine moves, every one tightly coupled to the others, so the AMAF premise that a move's value ignores its context is close to maximally wrong on the smallest possible board.
 
-![Simulations needed to first reach 90% move accuracy](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-sims-to-90.png)
+![Simulations needed to first reach 90% move accuracy](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-sims-to-90.png)
 
 Ranked by sample efficiency, plain UCT and the heuristic variant need 50 simulations to cross 90%. PUCT needs 1000, RAVE needs 2000, and pure MCTS never gets there.
 
@@ -268,7 +268,7 @@ Statisticians have a name for the trap I fell into. Add another explanatory vari
 
 Since MTD(f) is infeasible past $n \approx 5$, measuring scale needs two other references: self-play under a 90-second-per-move budget, to find where MCTS stops running at all, and a fixed-budget agent against a 10x-budget copy of itself, to find where its move quality stops holding up.
 
-![Largest board size each variant completes within the time budget](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-scaling-ceiling.png)
+![Largest board size each variant completes within the time budget](https://github.com/choonyongchan/thoughtsofaservant/tree/main/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-scaling-ceiling.png)
 
 At 1600 simulations per move the honest ceiling is $n \approx 12$ to $16$. RAVE stretches furthest, to 16x16. The heuristic agent cannot complete a single move on a 6x6 board. A 100x100 board is unreachable for every variant.
 
@@ -303,7 +303,7 @@ That is the real answer. MCTS does not beat exact search and never will, because
 
 **Heuristics help, and they are not authoritative.** Five carefully designed heuristics contributed nothing measurable over a two-line forced-move check, and I would not have believed it without measuring. Heuristics run our daily lives too: a busy restaurant is probably good, what feels right probably is right, a run of red probably means black is due. That last one is the Gambler's Fallacy, a useful reminder that a heuristic's confidence and its accuracy are loosely-related quantities. Growing in knowledge is noticing which heuristics you are running. Growing in wisdom is knowing which situations they survive.
 
-**The small steps matter.** MCTS is a modest extension of MiniMax: keep the tree, replace exhaustive expansion with sampling, replace the max with an average that slowly becomes a max again. That one trade, paid for with the correctness guarantee, opened problems exact search could not touch, and ten years after Kocsis and Szepesvári's paper it beat the best Go player alive. Nielsen and Chuang make the same argument in *Quantum Computation and Quantum Information*, and I keep returning to it while reading that book: the frontier looks insurmountable from outside, and it was built one small correct step at a time.
+**The small steps matter.** MCTS is a modest extension of MiniMax: keep the tree, replace exhaustive expansion with sampling, replace the max with an average that slowly becomes a max again. That one trade, paid for with the correctness guarantee, opened problems exact search could not touch, and ten years after Kocsis and SzepesvÃ¡ri's paper it beat the best Go player alive. Nielsen and Chuang make the same argument in *Quantum Computation and Quantum Information*, and I keep returning to it while reading that book: the frontier looks insurmountable from outside, and it was built one small correct step at a time.
 
 ## Food for Thought
 
@@ -430,7 +430,7 @@ Methodology: `State.state_count` increments on every `apply()` reaching an unsee
 
 ## A4. References
 
-* Kocsis, L. and Szepesvári, C. (2006). *Bandit based Monte-Carlo Planning.* ECML. The UCT paper.
+* Kocsis, L. and SzepesvÃ¡ri, C. (2006). *Bandit based Monte-Carlo Planning.* ECML. The UCT paper.
 * Gelly, S. and Silver, D. (2007). *Combining Online and Offline Knowledge in UCT.* ICML. RAVE.
 * Rosin, C. (2011). *Multi-armed bandits with episode context.* Annals of Mathematics and AI. PUCT.
 * Simon, H. A. (1956). *Rational choice and the structure of the environment.* Psychological Review. Satisficing.
