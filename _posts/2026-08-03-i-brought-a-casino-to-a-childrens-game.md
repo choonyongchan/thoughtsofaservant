@@ -45,7 +45,7 @@ Given a fixed budget, how do you strategically search a tree you have not explor
 
 ## What Monte Carlo Actually Means
 
-![The Monte Carlo Casino in Monaco]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/monte-carlo-casino.jpg)
+![The Monte Carlo Casino in Monaco](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/monte-carlo-casino.jpg)
 
 *The Monte Carlo Casino in Monaco, which lent its name to the method.*
 
@@ -59,7 +59,7 @@ Monte Carlo Tree Search (MCTS) is what happens when you wrap that statistic in a
 
 ## The Four Phases
 
-![The four phases of Monte Carlo Tree Search: selection, expansion, simulation, backpropagation]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-four-phases.svg)
+![The four phases of Monte Carlo Tree Search: selection, expansion, simulation, backpropagation](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-four-phases.svg)
 
 *One iteration of MCTS.*
 
@@ -165,7 +165,7 @@ Heavy playouts cost real time per simulation, and as the previous post's scaled-
 
 ## RAVE: Assuming Moves Are Independent
 
-![The RAVE heuristic illustrated on a TicTacToe position]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rave-heuristic.svg)
+![The RAVE heuristic illustrated on a TicTacToe position](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rave.svg.webp)
 
 *The RAVE heuristic in MCTS*
 
@@ -201,7 +201,7 @@ Past $C_{\text{rave}}$ visits, AMAF is ignored entirely. (Better weightings exis
 
 ## PUCT: Replacing the Heuristic With a Network
 
-![Rosenblatt's perceptron]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rosenblatt-perceptron.png)
+![Rosenblatt's perceptron](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/rosenblatt-perceptron.png)
 *Rosenblatt's perceptron: inputs, weights, one output.*
 
 AMAF is, structurally, a very small learned model: action in, value out, one layer, trained by counting. Seen that way the upgrade path is obvious. Widen the input from a bare action to the whole board state, stack layers between input and output, and train the weights by gradient descent instead of counting. The network now answers a richer question: given this position and this candidate move, how good is it?
@@ -214,7 +214,7 @@ Moves the network likes get explored first; moves it dislikes get explored later
 
 This is the architecture DeepMind adapted for AlphaGo, which beat Lee Sedol, a 9-dan professional, 4 games to 1 in March 2016.
 
-![Game 4 of the AlphaGo versus Lee Sedol match]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/alphago-lee-sedol-game4.svg)
+![Game 4 of the AlphaGo versus Lee Sedol match](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/alphago-lee-sedol-game4.svg)
 *Game 4, the one AlphaGo lost. Lee Sedol's move 78, the "wedge", was one AlphaGo's policy network rated at roughly 1 in 10,000, so the search barely looked at it and played poorly for the rest of the game.*
 
 The game AlphaGo lost is the more instructive one. A learned prior is a very good guess about where to look, and a very good guess is still a guess. How that prior gets trained, and what AlphaZero changed by discarding human games entirely, is the next post.
@@ -225,7 +225,7 @@ I implemented five agents against an $n \times n$, $k$-in-a-row engine: pure MCT
 
 ### Simulations buy accuracy, and then stop
 
-![Move accuracy against simulation count for five MCTS variants]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-accuracy-vs-sims.png)
+![Move accuracy against simulation count for five MCTS variants](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-accuracy-vs-sims.png)
 
 Every agent improves with more simulations, which is expected. The interesting part is where each stops improving. UCT and the heuristic variant reach 0.97 accuracy by 100 to 200 simulations and then flatten. PUCT crawls to 0.93 by 2000. RAVE and pure MCTS are still climbing at 2000 without plateauing.
 
@@ -233,7 +233,7 @@ Nobody reaches 1.0. On a 3x3 board that exact search solves in milliseconds, the
 
 RAVE underperforming here is its own assumption failing. A 3x3 game lasts at most nine moves, every one tightly coupled to the others, so the AMAF premise that a move's value ignores its context is close to maximally wrong on the smallest possible board.
 
-![Simulations needed to first reach 90% move accuracy]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-sims-to-90.png)
+![Simulations needed to first reach 90% move accuracy](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-sims-to-90.png)
 
 Ranked by sample efficiency, plain UCT and the heuristic variant need 50 simulations to cross 90%. PUCT needs 1000, RAVE needs 2000, and pure MCTS never gets there.
 
@@ -268,7 +268,7 @@ Statisticians have a name for the trap I fell into. Add another explanatory vari
 
 Since MTD(f) is infeasible past $n \approx 5$, measuring scale needs two other references: self-play under a 90-second-per-move budget, to find where MCTS stops running at all, and a fixed-budget agent against a 10x-budget copy of itself, to find where its move quality stops holding up.
 
-![Largest board size each variant completes within the time budget]({{ site.baseurl }}/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-scaling-ceiling.png)
+![Largest board size each variant completes within the time budget](/assets/images/posts/i-brought-a-casino-to-a-childrens-game/mcts-scaling-ceiling.png)
 
 At 1600 simulations per move the honest ceiling is $n \approx 12$ to $16$. RAVE stretches furthest, to 16x16. The heuristic agent cannot complete a single move on a 6x6 board. A 100x100 board is unreachable for every variant.
 
