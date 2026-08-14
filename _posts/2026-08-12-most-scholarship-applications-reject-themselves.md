@@ -32,7 +32,7 @@ I am writing this down for my juniors, the ones with an application cycle still 
 
 ## A Warning About Advice
 
-Singapore's Public Service Commission receives [thousands of applications a year}(https://www.psd.gov.sg/newsroom/engineering-scholarships/) and awards a [few dozen](https://www.psc.gov.sg/resources/news?show=Speeches&for=All+Years&page=14&datapopup=keynote-address-by-prime-minister-lee-hsien-loong-at-the-2009-psc-scholarships-award-ceremony-on-saturday-25-july-2009-2.30pm-at-shangri-la-hotel) scholarships. A ratio like that produces an entire folk industry of speculation about what the board secretly wants.
+Singapore's Public Service Commission receives [thousands of applications a year](https://www.psd.gov.sg/newsroom/engineering-scholarships/) and awards a [few dozen](https://www.psc.gov.sg/resources/news?show=Speeches&for=All+Years&page=14&datapopup=keynote-address-by-prime-minister-lee-hsien-loong-at-the-2009-psc-scholarships-award-ceremony-on-saturday-25-july-2009-2.30pm-at-shangri-la-hotel) scholarships. A ratio like that produces an entire folk industry of speculation about what the board secretly wants.
 
 The PSC has actually answered, [three times](https://www.psc.gov.sg/resources/chairman%27s-open-letters), in public. Then-Chairman Eddie Teo published an open letter titled "The PSC Interview" in July 2009, a year into the job, followed by a second letter in 2013. Current Chairman Lee Tzu Yang published his own in 2018, built around the line that scholarships are not rewards but opportunities for responsibility to serve. I was interviewed by Mr Lee, and I can tell you the letters are not decoration. They describe the thing they say they describe.
 
@@ -50,7 +50,7 @@ I did not expect to write that sentence either. Two answers I graded carried a s
 
 Underneath the near-blank answers sits a subtler category, and this is the one worth your attention: applications that are technically complete. Every compulsory field filled. Every optional field skipped. Nothing is missing. Nothing is offered, either.
 
-![An application form split into two halves: the compulsory questions filled in, the optional questions left blank](/assets/images/posts/application-two-halves.svg)
+![An application form split into two halves: the compulsory questions filled in, the optional questions left blank](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/application-two-halves.svg)
 
 If I were designing the form, I would put some of the most revealing questions in the optional section deliberately. Compulsory questions tell me what you will do to be considered. Optional questions tell me what you will do when nobody is checking. That is the closest thing a paper application has to a character reference, and it is free to give.
 
@@ -86,7 +86,7 @@ The second says: I volunteered at a childcare centre because I like children and
 
 The second candidate wins, and it is not close. The story is ordinary, which is exactly why it works: it happened, I can picture it, and nobody else could have handed it in.
 
-![Two answers to the same question side by side: a generic one that any applicant could have written, and a specific one that only its author could have written](/assets/images/posts/two-answers-compared.svg)
+![Two answers to the same question side by side: a generic one that any applicant could have written, and a specific one that only its author could have written](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/two-answers-compared.svg)
 
 Your experiences are the only section of your application that is structurally impossible to plagiarise. Spend your word count there.
 
@@ -100,7 +100,7 @@ This tip is hard because it requires you to have actually decided something.
 
 It also carries a consequence that most application advice steps around. If you look honestly at who a scholarship is designed for and you are not that person, the correct move is to not apply.
 
-![Two overlapping circles, what you want to build and what this scholarship funds, with the overlap marked as your case](/assets/images/posts/scholarship-fit-overlap.svg)
+![Two overlapping circles, what you want to build and what this scholarship funds, with the overlap marked as your case](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/scholarship-fit-overlap.svg)
 
 I mean that literally. Declining a mismatch costs you one line on a shortlist. Accepting a mismatch costs you years, sometimes a bond, served inside work you did not want. Scholarships exist to fund particular people into a particular future that the funder is trying to build (and a university major is the same bargain in a different wrapper). Where your future and theirs do not overlap, winning is the bad outcome.
 
@@ -132,7 +132,7 @@ One thing I have not resolved.
 
 Every reviewer, myself included, rewards the applicant who can narrate a clean line from an early interest to a present plan. Real lives are considerably messier. Some of the most capable people I know arrived at their work sideways, late, or by accident, and they would have scored badly on my rubric at 17 years old.
 
-![Two routes from age twelve to age twenty-five arriving at the same point: a straight navy line, and a wandering red dashed one](/assets/images/posts/straight-line-vs-real-life.svg)
+![Two routes from age twelve to age twenty-five arriving at the same point: a straight navy line, and a wandering red dashed one](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/straight-line-vs-real-life.svg)
 
 So which are we actually selecting for: the people with the clearest direction, or the people best at constructing one in hindsight? I do not think those are the same group, and I am not sure the rubric can tell them apart.
 
