@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560">
+
+  <!-- Card -->
+  <rect x="1" y="1" width="998" height="558" rx="10" fill="#FFFDF9" stroke="#E8DFD0" stroke-width="2"/>
+
+  <!-- Title -->
+  <text x="48" y="52" font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#2C2C2C">The same question, two answers</text>
+  <rect x="48" y="66" width="64" height="3" fill="#cc2030"/>
+  <text x="48" y="92" font-family="'Inter', system-ui, 'Segoe UI', sans-serif" font-size="13" fill="#6B7280">
+    “Why do you want to teach?”
+  </text>
+
+  <!-- ══════════ ANSWER A ══════════ -->
+  <rect x="48" y="112" width="430" height="310" rx="6" fill="#FFFFFF" stroke="#E0D6C6" stroke-width="1.5"/>
+  <path d="M48 118 a6 6 0 0 1 6 -6 h418 a6 6 0 0 1 6 6 v34 h-430 z" fill="#F4F1EC"/>
+  <text x="68" y="135" font-family="'Inter', system-ui, 'Segoe UI', sans-serif" font-size="12"
+        font-weight="700" letter-spacing="1.5" fill="#8A7F6E">ANSWER A</text>
+  <text x="68" y="147" font-family="Georgia, serif" font-style="italic" font-size="12.5" fill="#A89A85">could have come from anyone</text>
+
+  <g font-family="Georgia, 'Times New Roman', serif" font-size="13.5" fill="#9A9088">
+    <text x="68" y="192">I have always been passionate about education</text>
+    <text x="68" y="214">and its power to transform society. Good</text>
+    <text x="68" y="236">pedagogy is the foundation of all learning.</text>
+    <text x="68" y="258">Teachers shape the next generation, and I</text>
+    <text x="68" y="280">hope to contribute meaningfully to that</text>
+    <text x="68" y="302">mission through this scholarship.</text>
+  </g>
+
+  <rect x="68" y="334" width="390" height="44" rx="5" fill="#FDF0F1" stroke="#cc2030" stroke-opacity="0.35" stroke-width="1.2"/>
+  <!-- cross mark -->
+  <g stroke="#cc2030" stroke-width="2.4" stroke-linecap="round">
+    <line x1="86" y1="349" x2="98" y2="361"/>
+    <line x1="98" y1="349" x2="86" y2="361"/>
+  </g>
+  <text x="112" y="352" font-family="'Inter', system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#cc2030">Every sentence here could arrive</text>
+  <text x="112" y="368" font-family="'Inter', system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#cc2030">on my desk from somebody else.</text>
+
+  <!-- ══════════ ANSWER B ══════════ -->
+  <rect x="522" y="112" width="430" height="310" rx="6" fill="#FFFFFF" stroke="#B9CBEA" stroke-width="1.5"/>
+  <path d="M522 118 a6 6 0 0 1 6 -6 h418 a6 6 0 0 1 6 6 v34 h-430 z" fill="#EEF3FC"/>
+  <text x="542" y="135" font-family="'Inter', system-ui, 'Segoe UI', sans-serif" font-size="12"
+        font-weight="700" letter-spacing="1.5" fill="#1a4bd0">ANSWER B</text>
+  <text x="542" y="147" font-family="Georgia, serif" font-style="italic" font-size="12.5" fill="#5878B8">could only have come from you</text>
+
+  <g font-family="Georgia, 'Times New Roman', serif" font-size="13.5" fill="#2C2C2C">
+    <text x="542" y="192">I volunteered at a childcare centre because I</text>
+    <text x="542" y="214">like children. I ran academic coaching. By my</text>
+    <text x="542" y="236">second year I was organising events with the</text>
+    <text x="542" y="258">other volunteers and the parents. Patience, I</text>
+    <text x="542" y="280">learned, is a logistical skill as much as an</text>
+    <text x="542" y="302">emotional one.</text>
+  </g>
+
+  <rect x="542" y="334" width="390" height="44" rx="5" fill="#EEF4FF" stroke="#1a4bd0" stroke-opacity="0.35" stroke-width="1.2"/>
+  <!-- check mark -->
+  <g stroke="#1a4bd0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M560 355 l6 7 l12 -14"/>
+  </g>
+  <text x="586" y="352" font-family="'Inter', system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1a4bd0">Ordinary, which is why it works.</text>
+  <text x="586" y="368" font-family="'Inter', system-ui, 'Segoe UI', sans-serif" font-size="12.5" fill="#1a4bd0">Nobody else could have handed it in.</text>
+
+  <!-- ══════════ The test ══════════ -->
+  <rect x="48" y="452" width="904" height="72" rx="6" fill="#FFF6E8" stroke="#E0C88A" stroke-width="1.5"/>
+  <text x="500" y="484" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif"
+        font-style="italic" font-size="19" fill="#2C2C2C">
+    Could another applicant have sent me this exact sentence?
+  </text>
+  <text x="500" y="507" text-anchor="middle" font-family="'Inter', system-ui, 'Segoe UI', sans-serif"
+        font-size="13" fill="#8A7F6E">
+    If the answer is yes, that sentence is not working for you.
+  </text>
+
+</svg>
