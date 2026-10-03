@@ -3,7 +3,7 @@ title: "Most Scholarship Applications Reject Themselves"
 subtitle: "What grading six UCLA engineering scholarship applications taught me about the three things a reviewer actually reads"
 date: 2026-08-12
 category: Opinion
-cover: /assets/images/covers/most-scholarship-applications-reject-themselves.jpg
+cover: /assets/images/covers/most-scholarship-applications-reject-themselves.png
 abstract: "UCLA's Samueli School of Engineering asked me to assess six engineering scholarship applications this year. I expected to agonise over which excellent candidate was slightly more excellent. Instead, most of them never reached the comparison at all. Three tips, ordered by difficulty, on writing the application that survives long enough to be compared."
 comments: true
 ---
