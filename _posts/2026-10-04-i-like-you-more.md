@@ -185,7 +185,7 @@ Thresholds can also be self-fulfilling. If everyone expects a better match next 
 | Social | Filters on religion, diet or race-adjacent traits could reduce mixing across communities. Should the algorithm weigh that? |
 | Technological | Can FirstDate explain a match ("you both want kids, you both hate durian")? Should you see where you ranked? |
 | Legal | The PDPA does not apply to public agencies, which fall under the Public Sector (Governance) Act and government data rules instead. What consent covers dating answers and post-date surveys? |
-| Environmental | "I have a match. Now what?" Date quests point at the real bottleneck: the places where a first date happens. (If the government is paying, Atlas Coffeehouse is a nice place ^_^) |
+| Environmental | "I have a match. Now what?" Date quests point at the real bottleneck: the places where a first date happens. (If the government is paying, [Atlas Coffeehouse](https://www.lemon8-app.com/experience/atlas-coffee-shop?region=sg) is a nice place ^_^) |
 
 ## What could replace plain Gale-Shapley
 
