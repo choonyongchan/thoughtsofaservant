@@ -1,11 +1,11 @@
 ---
-title: "Whoever Proposes Wins: The Nobel-Prize Maths Behind Singapore's Government Matchmaker"
+title: "I Like You More! Who Wins When the Government Plays Matchmaker"
 subtitle: "FirstDate pairs public officers using a 60-year-old algorithm. It picks a side, and the side may matter less than the 33 questions you answered."
 date: 2026-10-04
 category: Opinion
 tags: [Algorithms, Game Theory, Matching, Singapore]
 abstract: "FirstDate, GovTech's matchmaking pilot for public officers, runs on the Gale-Shapley stable matching algorithm. Through four imaginary singles, this post shows whom the algorithm favours, why a stable match is not always a good one, and why the decisions that matter most are made before the algorithm even runs."
-cover: /assets/images/covers/whoever-proposes-wins.svg
+cover: /assets/images/covers/i-like-you-more.jpg
 comments: true
 ---
 
@@ -15,9 +15,9 @@ comments: true
 
 Every Chinese New Year, some auntie asks when you are getting married. This year the government has a more systematic answer: fill in 33 questions, verify yourself with Singpass, and let an algorithm pick your date.
 
-That algorithm earned a Nobel Prize. It also has a quirk nobody mentions at reunion dinner. One side has to "propose", and that side ends up with the best partner it could stably have, while the other side could get the worst. So on FirstDate, do the guys propose, or the girls?
+That algorithm earned a Nobel Prize, and it has a quirk nobody mentions at reunion dinner. Every couple has had the "No, I like you more!" argument. The algorithm settles it by picking a side: one side has to "propose", and that side ends up with the best partner it could stably have, while the other side could get the worst. So on FirstDate, do the guys propose, or the girls?
 
-Under one tidy condition, it doesn't matter at all. The decisions that shape your match are made before the algorithm runs, by how your 33 answers into a score.
+Under one tidy condition, it doesn't matter at all. The decisions that shape your match are made before the algorithm runs, by how your 33 answers are turned into a score.
 
 ## The state is matchmaking again
 
@@ -50,7 +50,7 @@ Suppose both guys rank Jia Hui first:
 
 In round 1, both guys propose to Jia Hui. She holds Rohan and rejects Darren. In round 2, Darren proposes to Nadia, who has no other offer and holds him. Nobody is rejected, so the algorithm stops: Darren–Nadia and Rohan–Jia Hui.
 
-![Gale-Shapley round by round: in round 1 both Darren and Rohan propose to Jia Hui, who holds Rohan and rejects Darren; in round 2 Darren proposes to Nadia, who holds him](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/whoever-proposes-wins/gs-rounds.svg)
+![Gale-Shapley round by round: in round 1 both Darren and Rohan propose to Jia Hui, who holds Rohan and rejects Darren; in round 2 Darren proposes to Nadia, who holds him](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/i-like-you-more/gs-rounds.svg)
 
 The result is *stable*: no two people both prefer each other over the partners they got. Such a pair is called a *blocking pair*, two people who would ditch their matches for each other. Darren would rather have Jia Hui, but Jia Hui prefers Rohan, so there is no block.
 
@@ -73,7 +73,7 @@ If the guys propose, Darren goes to Jia Hui and Rohan goes to Nadia. Nobody clas
 
 If the girls propose, Jia Hui goes to Rohan and Nadia goes to Darren. Also one round. Now both girls get their first choice, and both guys get their second.
 
-![The same four people matched two ways: when the guys propose, both guys get their 1st choice and both girls their 2nd; when the girls propose, it is the reverse. Both matchings are stable](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/whoever-proposes-wins/who-proposes.svg)
+![The same four people matched two ways: when the guys propose, both guys get their 1st choice and both girls their 2nd; when the girls propose, it is the reverse. Both matchings are stable](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/i-like-you-more/who-proposes.svg)
 
 Both outcomes are stable. Same people, same preferences, opposite winners. Gale and Shapley proved this holds in general: among all stable matchings, every proposer gets the best partner he could stably have, and every receiver gets the worst. The stable matchings line up between these two extremes, and the choice of proposer decides which end you land on.
 
@@ -95,7 +95,7 @@ Shapley shared the 2012 Nobel Memorial Prize in Economics with Alvin Roth, who u
 
 Nobody can rank every eligible public officer by hand, so FirstDate does it for you. Your 33 answers cover interests, food, travel, habits, love languages, kids, religion, hard no's and age range, and they are converted into a compatibility score for every possible partner. Sorting those scores produces the ranked list that Gale-Shapley needs.
 
-![The FirstDate pipeline: 33 answers, weighted by designer-chosen weights, become compatibility scores, then ranked lists, then Gale-Shapley, then a match. The weighting step carries the value judgements; Gale-Shapley is the smallest step](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/whoever-proposes-wins/pipeline.svg)
+![The FirstDate pipeline: 33 answers, weighted by designer-chosen weights, become compatibility scores, then ranked lists, then Gale-Shapley, then a match. The weighting step carries the value judgements; Gale-Shapley is the smallest step](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/i-like-you-more/pipeline.svg)
 
 That conversion contains a twist. If compatibility scores are symmetric (Darren's score for Jia Hui equals Jia Hui's score for Darren) and have no ties, there is exactly one stable matching, so who proposes doesn't matter. You can even find it without Gale-Shapley: pair the highest-scoring couple, remove them, and repeat.
 
@@ -125,9 +125,9 @@ Go back to the "whoever proposes wins" example and look inside everyone's head. 
 
 These scores produce exactly the same rankings as before. The difference is intensity: the guys barely care (10 against 9), while the girls care enormously (100 against 1). Gale-Shapley reads only the order, so it cannot see this.
 
-![Total compatibility under each proposer. Guys propose: guys 20, girls 2, total 22. Girls propose: guys 18, girls 200, total 218. Both matchings are stable](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/whoever-proposes-wins/welfare-22-vs-218.svg)
+![With the guys proposing, Gale-Shapley picks Darren–Jia Hui and Rohan–Nadia (guys 20, girls 2, total 22). The socially optimal matching, Darren–Nadia and Rohan–Jia Hui, totals 218. The guys gain 2 points; everyone together loses 196](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/i-like-you-more/welfare-22-vs-218.svg)
 
-When the guys propose, the total score is 10 + 10 + 1 + 1 = 22. When the girls propose, it is 9 + 9 + 100 + 100 = 218. Both matchings are stable. Choosing who proposes changes total satisfaction tenfold, and the algorithm has no opinion on which is better.
+With the guys proposing, Gale-Shapley returns Darren–Jia Hui and Rohan–Nadia. Each guy gets his first choice, and the couples score 10 + 10 + 1 + 1 = 22. Swap the partners to Darren–Nadia and Rohan–Jia Hui and the total jumps to 9 + 9 + 100 + 100 = 218. The guys lose 2 points; the girls gain 198. That better matching is stable too. Gale-Shapley never looks for it, because it asks only "would anyone break up?", never "which matching makes people happiest overall?"
 
 Symmetric scores have their own problem. In the symmetric table above, where each couple shares one score, the stable matching totals 11 (10 + 1), yet Darren–Nadia plus Rohan–Jia Hui would total 18 (9 + 9). That better pairing is unstable, because Darren and Jia Hui (10 each way) would both rather be together. Stability can lock in a worse outcome. With symmetric scores, the stable matching is only guaranteed to capture half of the best possible total, and that bound is tight.
 
@@ -143,7 +143,7 @@ Letting people report intensity directly would backfire: once stated scores matt
 
 ### Try it yourself
 
-Pick a preset, edit the scores, or switch who proposes, then step through the rounds. The demo adds up both partners' scores, so the symmetric totals appear doubled (22 and 36 rather than 11 and 18). It runs on the blog version of this post; elsewhere, the figures above tell the same story.
+Start from a preset or build your own pool of up to five guys and five girls. State preferences as ranks or as points, pick who proposes, and step through one proposal at a time. Each step says who asked whom and why the answer was yes or no. At the end, the demo goes through every pair that did not end up together and shows why neither would leave for the other. That check is what "stable" means. In points mode it also searches every possible matching for a higher total. The demo adds up both partners' scores, so the symmetric totals appear doubled (22 and 36 rather than 11 and 18). It runs on the blog version of this post; elsewhere, the figures above tell the same story.
 
 <div id="gs-demo" class="gs-demo"></div>
 <script src="{{ '/assets/js/gale-shapley-demo.js' | relative_url }}" defer></script>
@@ -154,7 +154,7 @@ FirstDate's pool is whoever signs up, and nothing guarantees equal numbers of me
 
 The *rural hospitals theorem* says the same people are unmatched in every stable matching. Switching who proposes reshuffles the couples, never the leftovers. Add Priya and Mei Ling to our pool, both ranked below Jia Hui and Nadia by the guys, and they stay single whichever side proposes.
 
-![Two guys and four girls. Guys propose: Darren–Jia Hui, Rohan–Nadia. Girls propose: Darren–Nadia, Rohan–Jia Hui. Priya and Mei Ling are unmatched in both](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/whoever-proposes-wins/short-side.svg)
+![Two guys and four girls. Guys propose: Darren–Jia Hui, Rohan–Nadia. Girls propose: Darren–Nadia, Rohan–Jia Hui. Priya and Mei Ling are unmatched in both](https://raw.githubusercontent.com/choonyongchan/thoughtsofaservant/refs/heads/main/assets/images/posts/i-like-you-more/short-side.svg)
 
 [Ashlagi, Kanoria and Leshno (2017)](https://doi.org/10.1086/689869) showed that in large random markets, even one extra person on one side is enough for the short side to win, whoever proposes, and the set of stable matchings shrinks to almost one. In an unbalanced pool, who signs up matters more than who proposes.
 
@@ -203,3 +203,5 @@ An algorithm can sort a pool. It cannot make two people stay. Every result above
 🍽️ _If FirstDate matched you tomorrow, would you trust a national spreadsheet more than a friend's introduction? Why?_
 
 Whether maths, chemistry or a well-meaning auntie brought your partner to you, the onus is on us to cherish the person we have been entrusted with. For it is written, "What therefore God hath joined together, let not man put asunder" (Mark 10:9).
+
+*Cover image: [Row of cherry blossom trees-lined tunnel](https://commons.wikimedia.org/wiki/File:Row_of_cherry_blossom_trees-lined_tunnel_20210401.jpg) by Project Kei, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), cropped.*
