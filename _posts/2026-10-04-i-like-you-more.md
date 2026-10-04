@@ -1,5 +1,5 @@
 ---
-title: "I Like You More! Who Wins When the Government Plays Matchmaker"
+title: "I Like You More! When Government Plays Matchmaker"
 subtitle: "FirstDate pairs public officers using a 60-year-old algorithm. It picks a side, and the side may matter less than the 33 questions you answered."
 date: 2026-10-04
 category: Opinion
