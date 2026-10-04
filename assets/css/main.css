@@ -575,6 +575,166 @@ body:not(.home-page) .site-main {
   border-radius: 4px;
 }
 
+/* — Tables — */
+.post-content table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: .92rem;
+  line-height: 1.5;
+}
+
+.post-content th,
+.post-content td {
+  border: 1px solid var(--color-border);
+  padding: .5rem .75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.post-content thead th {
+  background: var(--color-lavender);
+}
+
+/* — Gale-Shapley demo (whoever-proposes-wins post) — */
+.gs-demo {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  font-size: .92rem;
+}
+
+.gs-demo__title {
+  font-weight: 600;
+  margin-bottom: .75rem;
+}
+
+.gs-demo__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  margin-bottom: .6rem;
+}
+
+.gs-demo__label {
+  color: var(--color-text-muted);
+  min-width: 7rem;
+}
+
+.gs-demo__btn {
+  font: inherit;
+  padding: .3rem .8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.gs-demo__btn:hover,
+.gs-demo__btn.is-active {
+  border-color: var(--color-accent);
+  background: var(--color-code-bg);
+}
+
+.gs-demo__btn--primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.gs-demo__btn--primary:hover {
+  background: var(--color-accent-hover);
+}
+
+.gs-demo__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.gs-demo .gs-demo__scores {
+  display: table;
+  margin: 0;
+}
+
+.gs-demo__scores caption {
+  caption-side: top;
+  text-align: left;
+  color: var(--color-text-muted);
+  padding-bottom: .4rem;
+}
+
+.gs-demo__scores label {
+  white-space: nowrap;
+  color: var(--color-text-muted);
+}
+
+.gs-demo__scores input {
+  width: 4.5rem;
+  font: inherit;
+  padding: .1rem .3rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.gs-demo__scores th.is-guy { color: #2a78d6; }
+.gs-demo__scores th.is-girl { color: #c4501f; }
+
+.gs-demo__drawing {
+  width: 100%;
+  max-width: 320px;
+  justify-self: center;
+}
+
+.gs-node--guy { fill: #2a78d6; }
+.gs-node--girl { fill: #eb6834; }
+.gs-node__name { font-size: 13px; fill: var(--color-text); }
+.gs-line { stroke-width: 3; }
+.gs-line--held { stroke: var(--color-accent); }
+.gs-line--matched { stroke: var(--color-text); }
+.gs-line--rejected { stroke: #9CA3AF; stroke-dasharray: 6 5; stroke-width: 2; }
+
+.gs-demo__log {
+  margin: .75rem 0 .5rem 1.25rem;
+  color: var(--color-text-muted);
+}
+
+.gs-demo__result p {
+  margin: .25rem 0;
+}
+
+.gs-demo__final {
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .gs-demo__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gs-demo__scores label {
+    display: flex;
+    flex-direction: column;
+    white-space: normal;
+  }
+
+  .gs-demo__scores input {
+    width: 3.75rem;
+  }
+
+  .gs-demo__label {
+    min-width: 100%;
+  }
+}
+
 /* ============================================================
    Social Share
    ============================================================ */
