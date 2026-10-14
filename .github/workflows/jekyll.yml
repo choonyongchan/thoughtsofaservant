@@ -13,6 +13,11 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      staging:
+        description: "Also publish a noindex copy of the site under /staging/"
+        type: boolean
+        default: false
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -45,6 +50,14 @@ jobs:
       - name: Build with Jekyll
         # Outputs to the './_site' directory by default
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+        env:
+          JEKYLL_ENV: production
+      - name: Build staging copy
+        if: ${{ inputs.staging }}
+        run: |
+          bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}/staging" --destination "$RUNNER_TEMP/staging"
+          find "$RUNNER_TEMP/staging" -name '*.html' -exec sed -i 's|</head>|<meta name="robots" content="noindex"></head>|' {} +
+          mv "$RUNNER_TEMP/staging" _site/staging
         env:
           JEKYLL_ENV: production
       - name: Upload artifact
