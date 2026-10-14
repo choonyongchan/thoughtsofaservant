@@ -79,17 +79,17 @@ Before:
 
 ```text
 root  12/20
-â”œâ”€â”€ A  7/12
-â””â”€â”€ B  5/8
+├── A  7/12
+└── B  5/8
 ```
 
 After one iteration:
 
 ```text
 root  12/21
-â”œâ”€â”€ A  7/12
-â””â”€â”€ B  5/9
-    â””â”€â”€ C  0/1   <- new node; its rollout was a loss
+├── A  7/12
+└── B  5/9
+    └── C  0/1   <- new node; its rollout was a loss
 ```
 
 Run that loop a few thousand times and the visit counts concentrate on branches that keep winning. When the budget runs out, play the root child with the most visits. Note what never happened: nobody wrote a function that scores a half-finished board. MCTS needs no intermediate reward heuristic, only the ability to detect a terminal state and say who won. That is why it transferred to Go, where nobody knew how to write a good intermediate evaluation function in the first place.
@@ -110,8 +110,8 @@ Partway through a run, the visit counts already hint at which children are promi
 
 ```text
 root  (11 simulations)
-â”œâ”€â”€ A   8 wins / 10 visits   (win rate 0.80)
-â””â”€â”€ B   1 win  / 1  visit    (win rate 1.00)
+├── A   8 wins / 10 visits   (win rate 0.80)
+└── B   1 win  / 1  visit    (win rate 1.00)
 ```
 
 Node B has a perfect record and a sample size of one. Spending the next simulation on B risks wasting it on a branch that got lucky once; spending it on A risks never discovering B was better all along.
@@ -125,7 +125,7 @@ Clinical trials, A/B tests, ad auctions, and restaurant choice are all versions 
 
 ## Upper Confidence Bounds for Trees
 
-UCT is the standard answer, introduced by Levente Kocsis and Csaba SzepesvÃ¡ri in 2006. It replaces "pick a child at random" with "pick the child with the highest score", and builds that score from the two competing pressures directly.
+UCT is the standard answer, introduced by Levente Kocsis and Csaba Szepesvári in 2006. It replaces "pick a child at random" with "pick the child with the highest score", and builds that score from the two competing pressures directly.
 
 Start with exploitation. For child $i$ with $w_i$ wins over $n_i$ visits, the empirical win rate is
 
@@ -145,7 +145,7 @@ Selection takes the $\arg\max$ of this score. It is not a probability, and readi
 
 The constant $c$ sets the trade rate. The theoretical value for rewards in $[0,1]$ is $\sqrt{2}$, and in practice it gets tuned empirically per domain.
 
-The behaviour that falls out is what we wanted. Early on $n_i$ is small everywhere, the exploration term dominates, and UCT spreads its attention widely. As visits accumulate that term shrinks while the win rate stays put, so exploitation gradually takes over. Kocsis and SzepesvÃ¡ri proved the probability of selecting a suboptimal action at the root converges to zero, so UCT's evaluations converge to MiniMax's given unbounded time. The averaging operator becomes the max operator, slowly, for free.
+The behaviour that falls out is what we wanted. Early on $n_i$ is small everywhere, the exploration term dominates, and UCT spreads its attention widely. As visits accumulate that term shrinks while the win rate stays put, so exploitation gradually takes over. Kocsis and Szepesvári proved the probability of selecting a suboptimal action at the root converges to zero, so UCT's evaluations converge to MiniMax's given unbounded time. The averaging operator becomes the max operator, slowly, for free.
 
 ## Heavy Playouts: Teaching the Rollout to Play
 
@@ -303,7 +303,7 @@ That is the real answer. MCTS does not beat exact search and never will, because
 
 **Heuristics help, and they are not authoritative.** Five carefully designed heuristics contributed nothing measurable over a two-line forced-move check, and I would not have believed it without measuring. Heuristics run our daily lives too: a busy restaurant is probably good, what feels right probably is right, a run of red probably means black is due. That last one is the Gambler's Fallacy, a useful reminder that a heuristic's confidence and its accuracy are loosely-related quantities. Growing in knowledge is noticing which heuristics you are running. Growing in wisdom is knowing which situations they survive.
 
-**The small steps matter.** MCTS is a modest extension of MiniMax: keep the tree, replace exhaustive expansion with sampling, replace the max with an average that slowly becomes a max again. That one trade, paid for with the correctness guarantee, opened problems exact search could not touch, and ten years after Kocsis and SzepesvÃ¡ri's paper it beat the best Go player alive. Nielsen and Chuang make the same argument in *Quantum Computation and Quantum Information*, and I keep returning to it while reading that book: the frontier looks insurmountable from outside, and it was built one small correct step at a time.
+**The small steps matter.** MCTS is a modest extension of MiniMax: keep the tree, replace exhaustive expansion with sampling, replace the max with an average that slowly becomes a max again. That one trade, paid for with the correctness guarantee, opened problems exact search could not touch, and ten years after Kocsis and Szepesvári's paper it beat the best Go player alive. Nielsen and Chuang make the same argument in *Quantum Computation and Quantum Information*, and I keep returning to it while reading that book: the frontier looks insurmountable from outside, and it was built one small correct step at a time.
 
 ## Food for Thought
 
@@ -430,7 +430,7 @@ Methodology: `State.state_count` increments on every `apply()` reaching an unsee
 
 ## A4. References
 
-* Kocsis, L. and SzepesvÃ¡ri, C. (2006). *Bandit based Monte-Carlo Planning.* ECML. The UCT paper.
+* Kocsis, L. and Szepesvári, C. (2006). *Bandit based Monte-Carlo Planning.* ECML. The UCT paper.
 * Gelly, S. and Silver, D. (2007). *Combining Online and Offline Knowledge in UCT.* ICML. RAVE.
 * Rosin, C. (2011). *Multi-armed bandits with episode context.* Annals of Mathematics and AI. PUCT.
 * Simon, H. A. (1956). *Rational choice and the structure of the environment.* Psychological Review. Satisficing.
